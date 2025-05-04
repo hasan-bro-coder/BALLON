@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dekbhu7vcee4u"]
+
+[ext_resource type="Script" uid="uid://d38hjc25vie6v" path="res://scripts/enemys/enemybullet.gd" id="1_6hrnr"]
+[ext_resource type="Texture2D" uid="uid://l433c01lt57o" path="res://assets/textures/enemy/enemybullet.png" id="2_6hrnr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gitn6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ic8tj"]
+
+[node name="Enemybullet" type="CharacterBody2D"]
+top_level = true
+collision_layer = 64
+collision_mask = 64
+script = ExtResource("1_6hrnr")
+speed = 250
+metadata/_custom_type_script = "uid://dnm2do157l4y3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gitn6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -1.5708
+scale = Vector2(4, 4)
+texture = ExtResource("2_6hrnr")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ic8tj")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

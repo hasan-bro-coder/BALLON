@@ -1,0 +1,88 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnddul46r2nm0"]
+
+[ext_resource type="Script" uid="uid://bhd7ddiqd04do" path="res://scripts/mainmenu.gd" id="1_r3g3c"]
+[ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_3vvtq"]
+[ext_resource type="Texture2D" uid="uid://q7c5yeis8e4k" path="res://assets/textures/mainmenu.png" id="3_s5g8n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7yvfd"]
+font = ExtResource("2_3vvtq")
+font_size = 120
+font_color = Color(1, 0, 0.388235, 1)
+
+[node name="Mainmenu" type="Node2D"]
+script = ExtResource("1_r3g3c")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.335156
+anchor_top = 0.192361
+anchor_right = 0.664844
+anchor_bottom = 0.39375
+offset_left = 35.0
+offset_top = 12.5
+offset_right = -35.0
+offset_bottom = -12.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "BALLON"
+label_settings = SubResource("LabelSettings_7yvfd")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.265625
+anchor_top = 0.152778
+anchor_right = 0.734375
+anchor_bottom = 0.986111
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_s5g8n")
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="CanvasLayer/Control"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.410156
+anchor_top = 0.448611
+anchor_right = 0.590625
+anchor_bottom = 0.683333
+offset_top = 23.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "AAAAAAAAAAAAAAAAAAAAA
+
+AAAAAAAAAAAAAAAAAAAAA
+
+AAAAAAAAAAAAAAAAAAAAA
+
+AAAAAAAAAAAAAAAAAAAAA"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="mouse_entered" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/Control/Button" to="." method="_on_button_pressed"]

@@ -1,0 +1,187 @@
+[gd_scene load_steps=15 format=3 uid="uid://dvathl3wnaget"]
+
+[ext_resource type="Script" uid="uid://btlob61lw8ifc" path="res://scripts/main.gd" id="1_choun"]
+[ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://tvkhsob8e0r6" path="res://scripts/camera.gd" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://dnsgf8cb64at8" path="res://scripts/enemyhandler.gd" id="3_sugp2"]
+[ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="4_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://beidjx3vw2l5m" path="res://assets/textures/health.png" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://jmgiqgxrm7x7" path="res://scripts/fps.gd" id="6_85g3d"]
+[ext_resource type="Script" uid="uid://cp5dl6rs4oov2" path="res://scripts/ballon.gd" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://cc656msxqgoa" path="res://scripts/pixel.gd" id="7_o6xl0"]
+[ext_resource type="AudioStream" uid="uid://dsaj5le63txuc" path="res://assets/audio/chill-synthwave-211190.mp3" id="8_tipki"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
+font = ExtResource("4_jyhfs")
+font_size = 32
+
+[sub_resource type="Environment" id="Environment_sgp6g"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 5.37
+glow_bloom = 0.01
+glow_blend_mode = 1
+glow_hdr_threshold = 0.59
+
+[sub_resource type="BoxMesh" id="BoxMesh_o6xl0"]
+size = Vector3(3, 3, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
+font = ExtResource("4_jyhfs")
+font_size = 60
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_choun")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.133333, 0.137255, 0.137255, 1)
+
+[node name="player" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(624, 343)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+zoom = Vector2(2, 2)
+script = ExtResource("2_0wfyh")
+
+[node name="enemyhandler" type="Node" parent="."]
+script = ExtResource("3_sugp2")
+enemy_count = 1
+
+[node name="Timer" type="Timer" parent="enemyhandler"]
+autostart = true
+
+[node name="scores" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="scores"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="score" type="Label" parent="scores/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Score: 0nm"
+label_settings = SubResource("LabelSettings_tbgi4")
+
+[node name="TextureRect" type="TextureRect" parent="scores/Control"]
+visible = false
+layout_mode = 2
+offset_left = 1145.0
+offset_right = 1172.0
+offset_bottom = 27.0
+texture = ExtResource("5_tbgi4")
+expand_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="scores/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -135.0
+offset_bottom = 27.0
+grow_horizontal = 0
+
+[node name="fps" type="Label" parent="scores/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+script = ExtResource("6_85g3d")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sgp6g")
+
+[node name="ballon" type="Node2D" parent="."]
+script = ExtResource("6_tefeu")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ballon"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ballon/StaticBody2D"]
+build_mode = 1
+
+[node name="pixel" type="CharacterBody2D" parent="ballon"]
+script = ExtResource("7_o6xl0")
+
+[node name="pixel" type="MeshInstance2D" parent="ballon/pixel"]
+visible = false
+mesh = SubResource("BoxMesh_o6xl0")
+
+[node name="Line2D" type="Line2D" parent="ballon/pixel"]
+top_level = true
+width = 3.0
+joint_mode = 2
+
+[node name="Timer" type="Timer" parent="ballon"]
+wait_time = 0.1
+
+[node name="ballons" type="Node2D" parent="ballon"]
+
+[node name="bgm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_tipki")
+volume_db = -15.0
+mix_target = 1
+parameters/looping = true
+
+[node name="died" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="died"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="lost" type="Label" parent="died/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -195.0
+offset_top = -102.0
+offset_right = 195.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Bruh You Lost"
+label_settings = SubResource("LabelSettings_ya4ey")
+
+[node name="restart" type="Button" parent="died/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -14.0
+offset_right = 36.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_jyhfs")
+text = "RESTART"
+
+[connection signal="timeout" from="enemyhandler/Timer" to="enemyhandler" method="_on_timer_timeout"]
+[connection signal="timeout" from="ballon/Timer" to="ballon" method="_on_timer_timeout"]
+[connection signal="pressed" from="died/Control/restart" to="." method="_on_restart_pressed"]

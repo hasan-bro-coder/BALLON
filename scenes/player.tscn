@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://da8o6ut7mgand"]
+
+[ext_resource type="Texture2D" uid="uid://d4ntohu5seus1" path="res://assets/textures/player.png" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://db5ogghtw62kg" path="res://scripts/player.gd" id="1_g2els"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+size = Vector2(27, 27)
+
+[sub_resource type="Gradient" id="Gradient_g2els"]
+colors = PackedColorArray(1, 0, 0.356863, 0, 1, 1, 1, 1)
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_g2els")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g2els")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2.38419e-07, -2.38419e-07)
+rotation = -1.5708
+scale = Vector2(3, 3)
+texture = ExtResource("1_3vyb7")
+
+[node name="bullets" type="Node2D" parent="."]
+
+[node name="delay" type="Timer" parent="."]
+wait_time = 0.07
+one_shot = true
+
+[node name="shootpos" type="Node2D" parent="."]
+
+[node name="left" type="Marker2D" parent="shootpos"]
+position = Vector2(-5, -13)
+
+[node name="right" type="Marker2D" parent="shootpos"]
+position = Vector2(-5, 13)
+
+[node name="trailpos2" type="Node2D" parent="."]
+
+[node name="left" type="Marker2D" parent="trailpos2"]
+position = Vector2(12, -12)
+
+[node name="right" type="Marker2D" parent="trailpos2"]
+position = Vector2(12, 12)
+
+[node name="trails" type="Node2D" parent="."]
+top_level = true
+
+[node name="left" type="Line2D" parent="trails"]
+top_level = true
+width = 3.0
+gradient = SubResource("Gradient_g2els")
+
+[node name="right" type="Line2D" parent="trails"]
+top_level = true
+width = 3.0
+gradient = SubResource("Gradient_g2els")
