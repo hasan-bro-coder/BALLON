@@ -21,6 +21,8 @@ const BULLET = preload("res://scenes/bullet.tscn")
 @onready var tleft: Line2D = $trails/left
 @onready var tright: Line2D = $trails/right
 
+@onready var damage_audio: AudioStreamPlayer = $damage
+@onready var shoot_audio: AudioStreamPlayer = $shoot
 
 
 func _physics_process(delta: float) -> void:
@@ -54,7 +56,8 @@ func _physics_process(delta: float) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) || Input.is_key_pressed(KEY_E):
 		if delay.is_stopped():
 			shoot()
-	
+	else:
+		shoot_audio.stop()
 	trail()
 	
 	
@@ -64,22 +67,23 @@ func _physics_process(delta: float) -> void:
 @onready var tleftpos: Marker2D = $trailpos2/left
 @onready var trightpos: Marker2D = $trailpos2/right
 
+var trailframe = 0
 func trail():
 	if tleft.get_point_count() > 5:
-		tleft.remove_point(0)
-		tright.remove_point(0)
-		#tright.remove_point(0)
+			tleft.remove_point(0)
+			tright.remove_point(0)
+	tleft.add_point(tleftpos.global_position)
+	tright.add_point(trightpos.global_position)
 	
 	#tleft.rotation = rotation
 	#tright.rotation = rotation
 	#tleft.global_position = global_position
-	tleft.add_point(tleftpos.global_position)
-	tright.add_point(trightpos.global_position)
 	
 	
 
 func shoot():
-	
+	if !shoot_audio.playing:
+		shoot_audio.play()
 	var mouse := get_global_mouse_position()
 	var diffy = global_position.y - mouse.y
 	var diffx = global_position.x - mouse.x
@@ -103,11 +107,12 @@ func shoot():
 	pass
 
 func damage():
+	#damage_audio.play()
 	Global.health -= 1
 	if Global.health <= 0:
 		die()
-		
+
 func die():
-	hide()
+	#hide()
 	pass		
 	

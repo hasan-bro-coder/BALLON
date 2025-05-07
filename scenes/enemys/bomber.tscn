@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8hx5q5rjh8uc"]
+
+[ext_resource type="Script" uid="uid://b44072spb61e5" path="res://scripts/enemys/bomber.gd" id="1_4sskk"]
+[ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_ak30p"]
+[ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="4_jgg52"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gl387"]
+resource_local_to_scene = true
+shader = ExtResource("2_ak30p")
+shader_parameter/flash = 0.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4sskk"]
+load_path = "res://.godot/imported/bomber.png-bfc0d8ca28c20b3e6a3048df15c94ad0.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ak30p"]
+size = Vector2(26, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k2h5v"]
+size = Vector2(42, 38)
+
+[node name="Bomber" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_4sskk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0.35, 1)
+material = SubResource("ShaderMaterial_gl387")
+scale = Vector2(3, 3)
+texture = SubResource("CompressedTexture2D_4sskk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ak30p")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 11
+collision_mask = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_k2h5v")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jgg52")
+volume_db = -2.0
+mix_target = 1
+
+[node name="die" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 10
+lifetime = 1.5
+one_shot = true
+speed_scale = 2.75
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 10.0
+gravity = Vector2(0, 0)
+radial_accel_min = 10.0
+radial_accel_max = 70.0
+tangential_accel_max = 13.7
+angle_min = -374.8
+angle_max = 295.9
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+color = Color(1, 0, 0.352941, 1)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

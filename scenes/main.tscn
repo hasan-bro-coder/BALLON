@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dvathl3wnaget"]
+[gd_scene load_steps=20 format=3 uid="uid://dvathl3wnaget"]
 
 [ext_resource type="Script" uid="uid://btlob61lw8ifc" path="res://scripts/main.gd" id="1_choun"]
 [ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_o5qli"]
@@ -8,8 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://beidjx3vw2l5m" path="res://assets/textures/health.png" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://jmgiqgxrm7x7" path="res://scripts/fps.gd" id="6_85g3d"]
 [ext_resource type="Script" uid="uid://cp5dl6rs4oov2" path="res://scripts/ballon.gd" id="6_tefeu"]
-[ext_resource type="Script" uid="uid://cc656msxqgoa" path="res://scripts/pixel.gd" id="7_o6xl0"]
 [ext_resource type="AudioStream" uid="uid://dsaj5le63txuc" path="res://assets/audio/chill-synthwave-211190.mp3" id="8_tipki"]
+[ext_resource type="Script" uid="uid://cc656msxqgoa" path="res://scripts/pixel.gd" id="9_eb6dy"]
+[ext_resource type="Shader" uid="uid://sl7vbuycuolg" path="res://scripts/shaders/blur.gdshader" id="11_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="12_eb6dy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("4_jyhfs")
@@ -23,12 +25,25 @@ glow_bloom = 0.01
 glow_blend_mode = 1
 glow_hdr_threshold = 0.59
 
-[sub_resource type="BoxMesh" id="BoxMesh_o6xl0"]
-size = Vector3(3, 3, 1)
+[sub_resource type="QuadMesh" id="QuadMesh_eb6dy"]
+size = Vector2(5, 5)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_trceg"]
+resource_local_to_scene = true
+custom_solver_bias = 1.0
+b = Vector2(-100, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eb6dy"]
+shader = ExtResource("11_ya4ey")
+shader_parameter/lod = 2.99
 
 [sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
 font = ExtResource("4_jyhfs")
-font_size = 60
+font_size = 80
+
+[sub_resource type="LabelSettings" id="LabelSettings_eb6dy"]
+font = ExtResource("4_jyhfs")
+font_size = 24
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_choun")
@@ -49,12 +64,28 @@ position = Vector2(624, 343)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
-zoom = Vector2(2, 2)
+zoom = Vector2(1.5, 1.5)
 script = ExtResource("2_0wfyh")
 
 [node name="enemyhandler" type="Node" parent="."]
 script = ExtResource("3_sugp2")
-enemy_count = 1
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="enemyhandler"]
+emitting = false
+amount = 10
+one_shot = true
+speed_scale = 2.75
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 10.0
+gravity = Vector2(0, 0)
+radial_accel_min = 10.0
+radial_accel_max = 70.0
+angle_min = -374.8
+angle_max = 295.9
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+color = Color(1, 0, 0.352941, 1)
 
 [node name="Timer" type="Timer" parent="enemyhandler"]
 autostart = true
@@ -77,7 +108,6 @@ text = "Score: 0nm"
 label_settings = SubResource("LabelSettings_tbgi4")
 
 [node name="TextureRect" type="TextureRect" parent="scores/Control"]
-visible = false
 layout_mode = 2
 offset_left = 1145.0
 offset_right = 1172.0
@@ -111,22 +141,27 @@ environment = SubResource("Environment_sgp6g")
 [node name="ballon" type="Node2D" parent="."]
 script = ExtResource("6_tefeu")
 
+[node name="pixelmesh" type="MeshInstance2D" parent="ballon"]
+mesh = SubResource("QuadMesh_eb6dy")
+
+[node name="pixel" type="StaticBody2D" parent="ballon"]
+collision_layer = 9
+collision_mask = 9
+script = ExtResource("9_eb6dy")
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="ballon/pixel"]
+top_level = true
+shape = SubResource("SegmentShape2D_trceg")
+one_way_collision_margin = 128.0
+debug_color = Color(0.98763, 0, 0.310936, 0.42)
+
+[node name="pixels" type="Node2D" parent="ballon/pixel"]
+top_level = true
+
 [node name="StaticBody2D" type="StaticBody2D" parent="ballon"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ballon/StaticBody2D"]
 build_mode = 1
-
-[node name="pixel" type="CharacterBody2D" parent="ballon"]
-script = ExtResource("7_o6xl0")
-
-[node name="pixel" type="MeshInstance2D" parent="ballon/pixel"]
-visible = false
-mesh = SubResource("BoxMesh_o6xl0")
-
-[node name="Line2D" type="Line2D" parent="ballon/pixel"]
-top_level = true
-width = 3.0
-joint_mode = 2
 
 [node name="Timer" type="Timer" parent="ballon"]
 wait_time = 0.1
@@ -135,11 +170,13 @@ wait_time = 0.1
 
 [node name="bgm" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_tipki")
-volume_db = -15.0
+volume_db = -20.0
 mix_target = 1
 parameters/looping = true
 
 [node name="died" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 3
 visible = false
 
 [node name="Control" type="Control" parent="died"]
@@ -150,21 +187,47 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ColorRect" type="ColorRect" parent="died/Control"]
+material = SubResource("ShaderMaterial_eb6dy")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="lost" type="Label" parent="died/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.228516
+anchor_top = 0.244444
+anchor_right = 0.772266
+anchor_bottom = 0.398611
+offset_left = 76.5
+offset_top = 7.0
+offset_right = -76.5
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Bruh You Lost"
+label_settings = SubResource("LabelSettings_ya4ey")
+metadata/_edit_use_anchors_ = true
+
+[node name="score" type="Label" parent="died/Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -195.0
-offset_top = -102.0
-offset_right = 195.0
-offset_bottom = -19.0
+offset_left = -30.0
+offset_top = -61.0
+offset_right = 30.0
+offset_bottom = -38.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Bruh You Lost"
-label_settings = SubResource("LabelSettings_ya4ey")
+text = "score: 0"
+label_settings = SubResource("LabelSettings_eb6dy")
 
 [node name="restart" type="Button" parent="died/Control"]
 layout_mode = 1
@@ -180,7 +243,11 @@ offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_jyhfs")
+theme_override_font_sizes/font_size = 24
 text = "RESTART"
+
+[node name="Transition" parent="." instance=ExtResource("12_eb6dy")]
+visible = false
 
 [connection signal="timeout" from="enemyhandler/Timer" to="enemyhandler" method="_on_timer_timeout"]
 [connection signal="timeout" from="ballon/Timer" to="ballon" method="_on_timer_timeout"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbn7poa8m5c3j"]
+[gd_scene load_steps=8 format=3 uid="uid://dbn7poa8m5c3j"]
 
 [ext_resource type="Script" uid="uid://17qouqxux5b2" path="res://scripts/enemys/shooter.gd" id="1_obmm0"]
 [ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_4wayf"]
 [ext_resource type="Texture2D" uid="uid://ew1lg5qm8wi8" path="res://assets/textures/enemy/shooter.png" id="3_sln6n"]
+[ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="4_4wayf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jedv3"]
 resource_local_to_scene = true
@@ -44,5 +45,29 @@ collision_mask = 9
 [node name="delay" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_4wayf")
+volume_db = -2.0
+mix_target = 1
+
+[node name="die" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 10
+lifetime = 1.5
+one_shot = true
+speed_scale = 2.75
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 10.0
+gravity = Vector2(0, 0)
+radial_accel_min = 10.0
+radial_accel_max = 70.0
+tangential_accel_max = 13.7
+angle_min = -374.8
+angle_max = 295.9
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+color = Color(1, 0, 0.352941, 1)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,8 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnddul46r2nm0"]
+[gd_scene load_steps=10 format=3 uid="uid://cnddul46r2nm0"]
 
 [ext_resource type="Script" uid="uid://bhd7ddiqd04do" path="res://scripts/mainmenu.gd" id="1_r3g3c"]
 [ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_3vvtq"]
+[ext_resource type="Shader" uid="uid://sl7vbuycuolg" path="res://scripts/shaders/blur.gdshader" id="2_7yvfd"]
 [ext_resource type="Texture2D" uid="uid://q7c5yeis8e4k" path="res://assets/textures/mainmenu.png" id="3_s5g8n"]
+[ext_resource type="Texture2D" uid="uid://bwjddup43opxg" path="res://assets/textures/ballon.png" id="4_s5g8n"]
+[ext_resource type="Script" uid="uid://bw8og4meulxi6" path="res://scripts/balloneffect.gd" id="5_7yvfd"]
+[ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="7_dfy5j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dfy5j"]
+shader = ExtResource("2_7yvfd")
+shader_parameter/lod = 0.493
 
 [sub_resource type="LabelSettings" id="LabelSettings_7yvfd"]
 font = ExtResource("2_3vvtq")
@@ -12,15 +20,25 @@ font_color = Color(1, 0, 0.388235, 1)
 [node name="Mainmenu" type="Node2D"]
 script = ExtResource("1_r3g3c")
 
+[node name="balloneffect" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="balloneffect"]
+modulate = Color(0.980392, 0.980392, 0.980392, 1)
+position = Vector2(97, 636)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_s5g8n")
+script = ExtResource("5_7yvfd")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_dfy5j")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0)
+color = Color(0, 0, 0, 0.47451)
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -83,6 +101,12 @@ AAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAA"
 metadata/_edit_use_anchors_ = true
 
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Transition" parent="." instance=ExtResource("7_dfy5j")]
+
 [connection signal="mouse_entered" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="CanvasLayer/Control/Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

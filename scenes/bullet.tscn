@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://v06shb6uavfl"]
+[gd_scene load_steps=6 format=3 uid="uid://v06shb6uavfl"]
 
 [ext_resource type="Script" uid="uid://n33h3anygowk" path="res://scripts/playerbullet.gd" id="1_mkf8s"]
 
@@ -10,6 +10,10 @@ load_path = "res://.godot/imported/bullet.png-941c892f74ea1b566c4c87087cc02fc9.c
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l5glv"]
 size = Vector2(14, 10)
+
+[sub_resource type="Curve" id="Curve_mkf8s"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Bullet" type="CharacterBody2D"]
 top_level = true
@@ -32,5 +36,19 @@ collision_mask = 73
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_l5glv")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-8, 0)
+emitting = false
+amount = 10
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 100.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_mkf8s")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

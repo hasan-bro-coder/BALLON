@@ -1,15 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://cl5sb84c16esg"]
+[gd_scene load_steps=8 format=3 uid="uid://cl5sb84c16esg"]
 
 [ext_resource type="Script" uid="uid://d4a02jdoecf5g" path="res://scripts/enemys/walker.gd" id="1_17kp1"]
 [ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_4hskk"]
+[ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="3_4hskk"]
+[ext_resource type="Texture2D" uid="uid://c3b8h8sdgswl4" path="res://assets/textures/enemy/walker.png" id="3_bured"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_md0e3"]
 resource_local_to_scene = true
 shader = ExtResource("2_4hskk")
 shader_parameter/flash = 0.0
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4ra3w"]
-load_path = "res://.godot/imported/enemy.png-65d40d893b6a20f2b42111ae7aa3b1da.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7p1mj"]
 size = Vector2(26, 26)
@@ -26,7 +25,7 @@ script = ExtResource("1_17kp1")
 modulate = Color(1, 0, 0.35, 1)
 material = SubResource("ShaderMaterial_md0e3")
 scale = Vector2(3, 3)
-texture = SubResource("CompressedTexture2D_4ra3w")
+texture = ExtResource("3_bured")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_7p1mj")
@@ -37,5 +36,18 @@ collision_mask = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_md0e3")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_4hskk")
+volume_db = -2.0
+mix_target = 1
+
+[node name="die" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 10
+lifetime = 2.0
+one_shot = true
+speed_scale = 2.75
+explosiveness = 1.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

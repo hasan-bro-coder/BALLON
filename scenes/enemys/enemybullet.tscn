@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dekbhu7vcee4u"]
 
 [ext_resource type="Script" uid="uid://d38hjc25vie6v" path="res://scripts/enemys/enemybullet.gd" id="1_6hrnr"]
-[ext_resource type="Texture2D" uid="uid://l433c01lt57o" path="res://assets/textures/enemy/enemybullet.png" id="2_6hrnr"]
+[ext_resource type="Texture2D" uid="uid://b401kgh6xynj3" path="res://assets/textures/enemy/enemybullet/anime.png" id="2_6hrnr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gitn6"]
 
@@ -20,14 +20,49 @@ shape = SubResource("RectangleShape2D_gitn6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -1.5708
-scale = Vector2(4, 4)
+scale = Vector2(3, 3)
 texture = ExtResource("2_6hrnr")
+hframes = 4
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": true,
+"layer_section": false,
+"output_section": false,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"i_mode": 1,
+"keep_anim_length": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "AnimationPlayer",
+"slice": "",
+"source": "res://assets/textures/enemy/enemybullet/anime.ase"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "5a5f7f0b567c91b1cb65bd665a9c05c6"
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 64
-collision_mask = 64
+collision_layer = 65
+collision_mask = 65
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_ic8tj")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-8, 0)
+emitting = false
+one_shot = true
+explosiveness = 1.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 13.7
+initial_velocity_max = 27.4
+angle_min = -374.8
+angle_max = 295.9
+scale_amount_max = 5.0
+color = Color(1, 0, 0.352941, 1)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

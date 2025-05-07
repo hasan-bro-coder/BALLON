@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bwx06vjdljrjb"
+path="res://.godot/imported/anime.ase-efa00692e95bbf24ca3b0dd40a79401b.res"
+
+[deps]
+
+source_file="res://assets/textures/enemy/enemybullet/anime.ase"
+dest_files=["res://.godot/imported/anime.ase-efa00692e95bbf24ca3b0dd40a79401b.res"]
+
+[params]
+

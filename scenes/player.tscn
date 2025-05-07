@@ -1,13 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://da8o6ut7mgand"]
+[gd_scene load_steps=7 format=3 uid="uid://da8o6ut7mgand"]
 
 [ext_resource type="Texture2D" uid="uid://d4ntohu5seus1" path="res://assets/textures/player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://db5ogghtw62kg" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="AudioStream" uid="uid://ddolvtt3wbh2n" path="res://assets/audio/sfx/playerdamage.mp3" id="3_qhqgy"]
+[ext_resource type="AudioStream" uid="uid://bynfwms3kj5t4" path="res://assets/audio/sfx/shoot.mp3" id="4_dqkch"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
 size = Vector2(27, 27)
 
 [sub_resource type="Gradient" id="Gradient_g2els"]
-colors = PackedColorArray(1, 0, 0.356863, 0, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0, 0.495495, 1)
+colors = PackedColorArray(1, 0, 0.352941, 0, 1, 0, 0.356863, 0.498039, 1, 1, 1, 1)
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_g2els")
@@ -24,7 +27,7 @@ texture = ExtResource("1_3vyb7")
 [node name="bullets" type="Node2D" parent="."]
 
 [node name="delay" type="Timer" parent="."]
-wait_time = 0.07
+wait_time = 0.08
 one_shot = true
 
 [node name="shootpos" type="Node2D" parent="."]
@@ -38,20 +41,29 @@ position = Vector2(-5, 13)
 [node name="trailpos2" type="Node2D" parent="."]
 
 [node name="left" type="Marker2D" parent="trailpos2"]
-position = Vector2(12, -12)
+position = Vector2(12, -9)
 
 [node name="right" type="Marker2D" parent="trailpos2"]
-position = Vector2(12, 12)
+position = Vector2(12, 9)
 
 [node name="trails" type="Node2D" parent="."]
 top_level = true
 
 [node name="left" type="Line2D" parent="trails"]
 top_level = true
-width = 3.0
+width = 5.0
 gradient = SubResource("Gradient_g2els")
 
 [node name="right" type="Line2D" parent="trails"]
 top_level = true
-width = 3.0
+width = 5.0
 gradient = SubResource("Gradient_g2els")
+
+[node name="damage" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_qhqgy")
+volume_db = 10.0
+
+[node name="shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_dqkch")
+volume_db = 15.0
+parameters/looping = true

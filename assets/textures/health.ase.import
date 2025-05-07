@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dk6g4sv14vng8"
+path="res://.godot/imported/health.ase-092598a6c09b75124e752ad5276c4708.res"
+
+[deps]
+
+source_file="res://assets/textures/health.ase"
+dest_files=["res://.godot/imported/health.ase-092598a6c09b75124e752ad5276c4708.res"]
+
+[params]
+

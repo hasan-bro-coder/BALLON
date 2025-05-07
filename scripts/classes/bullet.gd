@@ -7,7 +7,7 @@ var dir: float
 
 var timer := 5.0
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	timer-= delta
 	velocity = Vector2(-speed,0).rotated(dir)
 	move_and_slide()

@@ -10,6 +10,8 @@ func _ready() -> void:
 	soft_collision_strength = 100
 
 func _physics_process(delta: float) -> void:
+	if died:
+		return
 	rotation = lerp_angle(rotation,atan2(global_position.y - player.global_position.y,global_position.x - player.global_position.x),0.5)
 	
 	if ray.is_colliding():
@@ -31,7 +33,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func shoot():
-	print("shot")
 	var bullet = BULLET.instantiate()
 	bullet.dir = rotation
 	bullet.global_position = global_position

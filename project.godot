@@ -29,6 +29,10 @@ window/stretch/aspect="expand"
 mouse_cursor/custom_image="uid://ywcccaqkucu"
 mouse_cursor/custom_image_hotspot=Vector2(6, 6)
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
+
 [global_group]
 
 enemy=""
