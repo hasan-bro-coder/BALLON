@@ -4,10 +4,10 @@ class_name Enemy
 signal die(name: String)
 
 @onready var area: Area2D = $Area2D
-@onready var player: CharacterBody2D = $"../../player"
+@onready var player: CharacterBody2D = $"../../../player"
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer
-@onready var dieparticle: GPUParticles2D = $die
+@onready var logger: Node2D = $"../../../Logger"
 
 @export var health: int = 10
 var soft_collision_strength: float = 800
@@ -46,18 +46,23 @@ func apply_knockback(from_position: Vector2, strength: float):
 	var direction = (velocity - from_position).normalized()
 	knockback = direction * strength
 
+
+
 func damage(pos):
+	if died:
+		return
+		
 	if !audio.playing:
 		audio.pitch_scale = randf_range(0.9,1.10)
 		audio.play()
 		playit = true
 		
 		
-		
 	health -= 1
 	if health <= 0:
 		Global.score += scoreAdd
 		died = true
+		logger.add("+300",global_position)
 		#dieparticle.emitting = true
 		die.emit(name)
 		sprite_2d.hide()

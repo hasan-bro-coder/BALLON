@@ -1,13 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://cl5sb84c16esg"]
+[gd_scene load_steps=8 format=3 uid="uid://b5dw24owd4dbv"]
 
-[ext_resource type="Script" uid="uid://d4a02jdoecf5g" path="res://scripts/enemys/walker.gd" id="1_17kp1"]
-[ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_4hskk"]
-[ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="3_4hskk"]
-[ext_resource type="Texture2D" uid="uid://c3b8h8sdgswl4" path="res://assets/textures/enemy/walker.png" id="3_bured"]
+[ext_resource type="Script" uid="uid://dfesxxl65phxb" path="res://scripts/jumper.gd" id="1_0ec0k"]
+[ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_b6red"]
+[ext_resource type="Texture2D" uid="uid://dy74lwtqsvla" path="res://assets/textures/enemy/jumper.png" id="3_b6red"]
+[ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="4_7d6gh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_md0e3"]
 resource_local_to_scene = true
-shader = ExtResource("2_4hskk")
+shader = ExtResource("2_b6red")
 shader_parameter/flash = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7p1mj"]
@@ -16,16 +16,16 @@ size = Vector2(26, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(42, 38)
 
-[node name="Walker" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 8
-collision_mask = 9
-script = ExtResource("1_17kp1")
+[node name="Jumper" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 40
+collision_mask = 40
+safe_margin = 35.148
+script = ExtResource("1_0ec0k")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0, 0.35, 1)
 material = SubResource("ShaderMaterial_md0e3")
 scale = Vector2(3, 3)
-texture = ExtResource("3_bured")
+texture = ExtResource("3_b6red")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_7p1mj")
@@ -38,7 +38,7 @@ collision_mask = 11
 shape = SubResource("RectangleShape2D_md0e3")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_4hskk")
+stream = ExtResource("4_7d6gh")
 volume_db = -8.0
 mix_target = 1
 

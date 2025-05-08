@@ -124,6 +124,7 @@ func build():
 		ballons.add_child(m)
 		m.make_shape()
 		i+=1
+	#collision_polygon_2d.set_polygon(positions)
 		
 	#var i = 0
 	#for pos in positions:

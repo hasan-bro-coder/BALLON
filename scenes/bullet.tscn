@@ -15,7 +15,7 @@ size = Vector2(14, 10)
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Bullet" type="CharacterBody2D"]
+[node name="Bullet" type="CharacterBody2D" groups=["bullet"]]
 top_level = true
 collision_layer = 64
 collision_mask = 64

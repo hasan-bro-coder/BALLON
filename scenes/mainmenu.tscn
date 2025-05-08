@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cnddul46r2nm0"]
+[gd_scene load_steps=12 format=3 uid="uid://cnddul46r2nm0"]
 
 [ext_resource type="Script" uid="uid://bhd7ddiqd04do" path="res://scripts/mainmenu.gd" id="1_r3g3c"]
 [ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_3vvtq"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bwjddup43opxg" path="res://assets/textures/ballon.png" id="4_s5g8n"]
 [ext_resource type="Script" uid="uid://bw8og4meulxi6" path="res://scripts/balloneffect.gd" id="5_7yvfd"]
 [ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="7_dfy5j"]
+[ext_resource type="AudioStream" uid="uid://cj582yv6oex0r" path="res://assets/audio/sfx/ui_hover.mp3" id="8_wf3n4"]
+[ext_resource type="AudioStream" uid="uid://ehencagomqts" path="res://assets/audio/sfx/ui_click.mp3" id="9_h73c4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dfy5j"]
 shader = ExtResource("2_7yvfd")
@@ -105,6 +107,12 @@ metadata/_edit_use_anchors_ = true
 autostart = true
 
 [node name="Transition" parent="." instance=ExtResource("7_dfy5j")]
+
+[node name="hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_wf3n4")
+
+[node name="click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_h73c4")
 
 [connection signal="mouse_entered" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_exited"]

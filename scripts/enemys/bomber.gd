@@ -7,7 +7,7 @@ const BULLET = preload("res://scenes/enemys/enemybullet.tscn")
 func _physics_process(delta: float) -> void:
 	if died:
 		return
-	#rotation = lerp_angle(rotation,atan2(global_position.y - player.global_position.y,global_position.x - player.global_position.x),0.5)
+	rotation = lerp_angle(rotation,atan2(global_position.y - player.global_position.y,global_position.x - player.global_position.x),0.5)
 	velocity = (global_position - player.global_position).normalized() * -3000 * delta 
 	velocity -= knockback
 	knockback = Vector2.ZERO
@@ -17,6 +17,9 @@ func _physics_process(delta: float) -> void:
 
 
 func damage(pos):
+	if died:
+		return
+		
 	print_debug(pos)
 	if !audio.playing:
 		audio.pitch_scale = randf_range(0.9,1.10)
@@ -24,12 +27,13 @@ func damage(pos):
 		playit = true
 
 	health -= 1
-	if health <= 0:
+	if health == 0:
+		logger.add("+300",global_position)
 		Global.score += scoreAdd
 		shoot(0)
+		shoot(1)
+		shoot(2)
 		shoot(3)
-		#shoot(2)
-		#shoot(3)
 		
 		die.emit(name)
 		#$Area2D.queue_free()
@@ -51,11 +55,21 @@ func damage(pos):
 		
 func shoot(dir):
 	var bullet = BULLET.instantiate()
-	bullet.speed = 300
-	bullet.dir = dir * 90
-	bullet.global_position = global_position + Vector2(dir,dir) * 9
+	bullet.speed = 200
+	bullet.dir = dir * 90 if dir != 0 else rotation_degrees
+	var ps = Vector2.ZERO
+	match dir:
+		1:
+			ps = Vector2(0,-50)
+		2:
+			ps = Vector2(50,0)
+		3:
+			ps = Vector2(0,50)
+		0:
+			ps = Vector2(-50,0)
+	bullet.global_position = global_position + ps
 	bullet.global_rotation = dir * 90
-	$"../../".add_child.call_deferred(bullet)
+	$"../../../".add_child.call_deferred(bullet,true)
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

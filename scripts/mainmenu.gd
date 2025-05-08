@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var sprite_2d: Sprite2D = $balloneffect/Sprite2D
 @onready var balloncon: Node2D = $balloneffect
+@onready var hover: AudioStreamPlayer = $hover
+@onready var click: AudioStreamPlayer = $click
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +18,7 @@ func _process(delta: float) -> void:
 @onready var anime: AnimationPlayer = $AnimationPlayer
 
 func _on_button_pressed() -> void:
+	click.play()
 	#var tween = create_tween()
 	#$CanvasLayer/Control/TextureRect.modulate = Color.from_rgba8(255,0,99)
 	#tween.tween_property($CanvasLayer/ColorRect, "color", Color.BLACK, 2)
@@ -26,6 +29,7 @@ func _on_button_pressed() -> void:
 
 
 func _on_button_mouse_entered() -> void:
+	hover.play()
 	var tween = create_tween()
 	#$CanvasLayer/Control/TextureRect.modulate = Color.from_rgba8(255,0,99)
 	tween.tween_property($CanvasLayer/Control/TextureRect, "modulate", Color.from_rgba8(255,0,99), 0.2)

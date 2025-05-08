@@ -3,14 +3,19 @@ extends Node
 const WALKER = preload("res://scenes/enemys/walker.tscn")
 const SHOOTER = preload("res://scenes/enemys/shooter.tscn")
 const BOMBER = preload("res://scenes/enemys/bomber.tscn")
-var enemytypes: Array[PackedScene] = [WALKER
-#,SHOOTER,BOMBER
+const JUMPER = preload("res://scenes/enemys/jumper.tscn")
+var enemytypes: Array[PackedScene] = [
+	#WALKER,
+	#SHOOTER,
+	#BOMBER,
+	JUMPER
 ]
 var enemys_on_map: Dictionary[String,Enemy] = {
 	
 }
 
 @export var enemy_count = 5
+@onready var enemys: Node2D = $enemys
 
 func generate_unique_id(length := 6) -> String:
 	const CHAR_POOL := "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -42,7 +47,7 @@ func spawn():
 		if enemys_on_map.has(did):
 			enemys_on_map.erase(did)
 	)
-	add_child(enemy)
+	enemys.add_child(enemy)
 	enemys_on_map[id] = enemy
 	
 

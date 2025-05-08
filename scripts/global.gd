@@ -9,25 +9,25 @@ var stage_state = [
 		"zoom": Vector2(2,2),
 		"radius": 150,
 		"scoreNext": 10000,
-		"scoreExt": 10000
+		"scoreExt": 0
 	},
 	{
 		"zoom": Vector2(1.7,1.7),
 		"radius": 225,
 		"scoreNext": 50000,
-		"scoreExt": 50000-10000
+		"scoreExt": 10000
 	},
 	{
 		"zoom": Vector2(1.2,1.2),
 		"radius": 300,
 		"scoreNext": 150000,
-		"scoreExt": 150000-50000
+		"scoreExt": 50000
 	},
 	{
 		"zoom": Vector2(1,1),
 		"radius": 400,
 		"scoreNext": 300000,
-		"scoreExt": 300000-150000
+		"scoreExt": 150000
 	}
 ]
 var enemyspawnrate = 100
@@ -41,7 +41,7 @@ var score = 0:
 			ballon.fill(20)
 			set_stage(stage+1)
 		else:
-			ballon.fill((floor((value*20)-stage_state[stage]["scoreNext"])/stage_state[stage]["scoreExt"]))
+			ballon.fill((floor(((value-stage_state[stage]["scoreExt"])*20))/(stage_state[stage]["scoreNext"]-stage_state[stage]["scoreExt"])))
 		score = value
 
 

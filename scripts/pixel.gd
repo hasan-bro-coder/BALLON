@@ -178,7 +178,7 @@ func draw_pixel(grid_pos: Vector2i):
 	var instance = pixel.duplicate()
 	var pixel_pos = Vector2(grid_pos.x * PIXEL_SIZE.x, grid_pos.y * PIXEL_SIZE.y)
 	instance.global_position = pixel_pos
-	pixels.add_child(instance)
+	pixels.add_child(instance,true)
 
 func draw_lines(start: Vector2i, end: Vector2i):
 		var poses = draw_bresenham_line(start,end)

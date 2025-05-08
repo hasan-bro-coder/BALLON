@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dvathl3wnaget"]
+[gd_scene load_steps=21 format=3 uid="uid://dvathl3wnaget"]
 
 [ext_resource type="Script" uid="uid://btlob61lw8ifc" path="res://scripts/main.gd" id="1_choun"]
 [ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_o5qli"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://cc656msxqgoa" path="res://scripts/pixel.gd" id="9_eb6dy"]
 [ext_resource type="Shader" uid="uid://sl7vbuycuolg" path="res://scripts/shaders/blur.gdshader" id="11_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="12_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://cn5untyj0vd3g" path="res://scenes/logger.tscn" id="13_trceg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("4_jyhfs")
@@ -69,6 +70,7 @@ script = ExtResource("2_0wfyh")
 
 [node name="enemyhandler" type="Node" parent="."]
 script = ExtResource("3_sugp2")
+enemy_count = 1
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="enemyhandler"]
 emitting = false
@@ -89,6 +91,8 @@ color = Color(1, 0, 0.352941, 1)
 
 [node name="Timer" type="Timer" parent="enemyhandler"]
 autostart = true
+
+[node name="enemys" type="Node2D" parent="enemyhandler"]
 
 [node name="scores" type="CanvasLayer" parent="."]
 
@@ -145,8 +149,8 @@ script = ExtResource("6_tefeu")
 mesh = SubResource("QuadMesh_eb6dy")
 
 [node name="pixel" type="StaticBody2D" parent="ballon"]
-collision_layer = 9
-collision_mask = 9
+collision_layer = 41
+collision_mask = 41
 script = ExtResource("9_eb6dy")
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="ballon/pixel"]
@@ -159,9 +163,13 @@ debug_color = Color(0.98763, 0, 0.310936, 0.42)
 top_level = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="ballon"]
+collision_layer = 32
+collision_mask = 32
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ballon/StaticBody2D"]
 build_mode = 1
+one_way_collision = true
+one_way_collision_margin = 128.0
 
 [node name="Timer" type="Timer" parent="ballon"]
 wait_time = 0.1
@@ -248,6 +256,8 @@ text = "RESTART"
 
 [node name="Transition" parent="." instance=ExtResource("12_eb6dy")]
 visible = false
+
+[node name="Logger" parent="." instance=ExtResource("13_trceg")]
 
 [connection signal="timeout" from="enemyhandler/Timer" to="enemyhandler" method="_on_timer_timeout"]
 [connection signal="timeout" from="ballon/Timer" to="ballon" method="_on_timer_timeout"]

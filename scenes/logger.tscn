@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cn5untyj0vd3g"]
+
+[ext_resource type="Script" uid="uid://12ajw7ghavos" path="res://scripts/logger.gd" id="1_0erxj"]
+[ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_v3gp0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4r5dl"]
+font = ExtResource("2_v3gp0")
+font_size = 15
+outline_color = Color(1, 0, 0.352941, 1)
+shadow_size = 0
+
+[node name="Logger" type="Node2D"]
+script = ExtResource("1_0erxj")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+z_index = 1
+offset_left = 449.0
+offset_top = 31.0
+offset_right = 503.0
+offset_bottom = 61.0
+text = "+100"
+label_settings = SubResource("LabelSettings_4r5dl")
+
+[node name="labels" type="Node2D" parent="."]

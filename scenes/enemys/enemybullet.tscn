@@ -7,7 +7,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ic8tj"]
 
-[node name="Enemybullet" type="CharacterBody2D"]
+[node name="Enemybullet" type="CharacterBody2D" groups=["bullet"]]
 top_level = true
 collision_layer = 64
 collision_mask = 64

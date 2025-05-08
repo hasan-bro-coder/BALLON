@@ -32,8 +32,8 @@ texture = ExtResource("3_sln6n")
 shape = SubResource("RectangleShape2D_us5cx")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 11
+collision_mask = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_t6tar")
@@ -48,26 +48,7 @@ one_shot = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_4wayf")
-volume_db = -2.0
+volume_db = -8.0
 mix_target = 1
-
-[node name="die" type="CPUParticles2D" parent="."]
-emitting = false
-amount = 10
-lifetime = 1.5
-one_shot = true
-speed_scale = 2.75
-explosiveness = 1.0
-emission_shape = 1
-emission_sphere_radius = 10.0
-gravity = Vector2(0, 0)
-radial_accel_min = 10.0
-radial_accel_max = 70.0
-tangential_accel_max = 13.7
-angle_min = -374.8
-angle_max = 295.9
-scale_amount_min = 3.0
-scale_amount_max = 5.0
-color = Color(1, 0, 0.352941, 1)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

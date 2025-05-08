@@ -14,17 +14,18 @@ func _process(delta):
 		$Sprite2D.frame = frame  # This depends on how your frames are set up+=de
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	#if body.name == "bullet":
+	if body.is_in_group("bullet"):
+		return
 		#$CPUParticles2D.emitting = true
 		#$Sprite2D.hide()
 		#await $CPUParticles2D.finished
 		#queue_free()
 	if body.name == "player":
 		body.damage()
-		
-	if !body.is_in_group("enemy") and body != self:
-		$CPUParticles2D.emitting = true
-		$Sprite2D.hide()
-		await $CPUParticles2D.finished
-		queue_free()
+	if body.is_in_group("enemy") || body.name == "Enemybullet" || body.name == "bullet":
+		return
+	$CPUParticles2D.emitting = true
+	$Sprite2D.hide()
+	await $CPUParticles2D.finished
+	queue_free()
 	pass # Replace with function body.

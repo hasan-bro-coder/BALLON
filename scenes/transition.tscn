@@ -99,7 +99,6 @@ script = ExtResource("1_rerct")
 layer = 7
 
 [node name="ColorRect" type="ColorRect" parent="transition"]
-visible = false
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -111,13 +110,14 @@ color = Color(0.133333, 0.137255, 0.137255, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect3" type="ColorRect" parent="transition"]
-visible = false
 anchors_preset = -1
 anchor_left = 0.00234375
 anchor_top = 0.495833
 anchor_right = 1.00234
 anchor_bottom = 0.995833
+offset_left = -3.0
 offset_top = 363.0
+offset_right = -3.0
 offset_bottom = 363.0
 grow_horizontal = 2
 grow_vertical = 2

@@ -12,7 +12,8 @@ func _physics_process(delta: float) -> void:
 	velocity = Vector2(-speed,0).rotated(dir)
 	move_and_slide()
 	if timer < 0:
-		queue_free()
+		#queue_free()
+		pass
 		
 	#for i in get_slide_collision_count():
 			#var c = get_slide_collision(i)
