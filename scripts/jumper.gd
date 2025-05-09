@@ -2,13 +2,18 @@ extends Enemy
 
 var dir: Vector2
 var speed = 4
+@onready var cp: CPUParticles2D = $CPUParticles2D2
+
 func _ready() -> void:
 	velocity = Vector2(-speed,speed)
 
 func _physics_process(delta: float) -> void:
 	apply_soft_collision(delta)
+	velocity = velocity.clamp(Vector2(-speed,-speed),Vector2(speed,speed))
 	var c = move_and_collide(velocity)
 	if c:
+		cp.emitting = true
+		#if !c.get_collider().is_in_group("enemy"):
 		velocity = velocity.bounce(c.get_normal())
 	#if velocity.y > 0 and velocity.y < 10:
 		#velocity.y = -speed
@@ -33,6 +38,7 @@ func _physics_process(delta: float) -> void:
 	#move_and_slide()
 
 
-#func _on_area_2d_body_entered(body: Node2D) -> void:
-	
-	#pass # Replace with function body.
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body == player:
+		body.damage()
+	pass # Replace with function body.

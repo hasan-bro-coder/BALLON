@@ -20,38 +20,45 @@ func damage(pos):
 	if died:
 		return
 		
-	print_debug(pos)
-	if !audio.playing:
-		audio.pitch_scale = randf_range(0.9,1.10)
-		audio.play()
-		playit = true
-
-	health -= 1
+	health -= 1 + Global.damage
 	if health == 0:
-		logger.add("+300",global_position)
-		Global.score += scoreAdd
+		died = true
+		Global.score += scoreAdd * Global.scoreM
+		camera.shake()
 		shoot(0)
 		shoot(1)
 		shoot(2)
 		shoot(3)
-		
+		logger.add("+"+str(int(floor(scoreAdd * Global.scoreM))),global_position)
+		#dieparticle.emitting = true
 		die.emit(name)
-		#$Area2D.queue_free()
-		hide()
-		await audio.finished
+		sprite_2d.hide()
+		#await dieparticle.finished
+		dieaudio.play()
+		await dieaudio.finished
 		queue_free()
+
 	apply_knockback(pos,500)
 	move_and_slide()
-	if tween: tween.stop()
+	
+	
+	if !audio.playing:
+		audio.pitch_scale = randf_range(0.9,1.10)
+		audio.play()
+		playit = true
+	if tween and tween.is_running(): 
+		return
+		#tween.stop()
 	tween = create_tween()
-	sprite_2d.material.set_shader_parameter("flash",0.0)
+	#sprite_2d.material.set_shader_parameter("flash",0.0)
+	#tween.tween_property(self,"scale",Vector2(1.1,1.1),0.2)
 	tween.tween_property(sprite_2d,"material:shader_parameter/flash",1,0.1)
 	tween.finished.connect(func():
 		if tween2: tween2.stop()
 		tween2 = create_tween()
+		#tween.tween_property(self,"scale",Vector2(1,1),0.2)
 		tween2.tween_property(sprite_2d,"material:shader_parameter/flash",0,0.1)
 	)
-	#sprite_2d.material.set_shader_parameter("flash",1.0)
 		
 func shoot(dir):
 	var bullet = BULLET.instantiate()

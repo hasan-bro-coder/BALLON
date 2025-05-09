@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbn7poa8m5c3j"]
+[gd_scene load_steps=9 format=3 uid="uid://dbn7poa8m5c3j"]
 
 [ext_resource type="Script" uid="uid://17qouqxux5b2" path="res://scripts/enemys/shooter.gd" id="1_obmm0"]
 [ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_4wayf"]
 [ext_resource type="Texture2D" uid="uid://ew1lg5qm8wi8" path="res://assets/textures/enemy/shooter.png" id="3_sln6n"]
 [ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="4_4wayf"]
+[ext_resource type="AudioStream" uid="uid://bd4twa5r6bw31" path="res://assets/audio/sfx/enemydead.wav" id="5_sln6n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jedv3"]
 resource_local_to_scene = true
@@ -20,6 +21,7 @@ size = Vector2(48, 44)
 collision_layer = 8
 collision_mask = 9
 script = ExtResource("1_obmm0")
+scoreAdd = 250
 metadata/_custom_type_script = "uid://3axr41fx5hfv"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -50,5 +52,9 @@ one_shot = true
 stream = ExtResource("4_4wayf")
 volume_db = -8.0
 mix_target = 1
+
+[node name="dieaudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_sln6n")
+volume_db = -2.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

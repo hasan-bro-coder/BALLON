@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b5dw24owd4dbv"]
+[gd_scene load_steps=10 format=3 uid="uid://b5dw24owd4dbv"]
 
 [ext_resource type="Script" uid="uid://dfesxxl65phxb" path="res://scripts/jumper.gd" id="1_0ec0k"]
 [ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_b6red"]
 [ext_resource type="Texture2D" uid="uid://dy74lwtqsvla" path="res://assets/textures/enemy/jumper.png" id="3_b6red"]
 [ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="4_7d6gh"]
+[ext_resource type="AudioStream" uid="uid://bd4twa5r6bw31" path="res://assets/audio/sfx/enemydead.wav" id="5_b6red"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_md0e3"]
 resource_local_to_scene = true
@@ -11,16 +12,21 @@ shader = ExtResource("2_b6red")
 shader_parameter/flash = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7p1mj"]
-size = Vector2(26, 26)
+size = Vector2(28, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(42, 38)
 
+[sub_resource type="Curve" id="Curve_b6red"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="Jumper" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 40
-collision_mask = 40
+collision_layer = 8
+collision_mask = 32
 safe_margin = 35.148
 script = ExtResource("1_0ec0k")
+scoreAdd = 400
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_md0e3")
@@ -41,5 +47,24 @@ shape = SubResource("RectangleShape2D_md0e3")
 stream = ExtResource("4_7d6gh")
 volume_db = -8.0
 mix_target = 1
+
+[node name="dieaudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_b6red")
+volume_db = -2.0
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+position = Vector2(-8, 0)
+emitting = false
+amount = 10
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 100.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_b6red")
+color = Color(1, 0, 0.352941, 1)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

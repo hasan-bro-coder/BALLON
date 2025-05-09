@@ -1,18 +1,58 @@
-[gd_scene load_steps=21 format=3 uid="uid://dvathl3wnaget"]
+[gd_scene load_steps=34 format=3 uid="uid://dvathl3wnaget"]
 
 [ext_resource type="Script" uid="uid://btlob61lw8ifc" path="res://scripts/main.gd" id="1_choun"]
 [ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://tvkhsob8e0r6" path="res://scripts/camera.gd" id="2_0wfyh"]
+[ext_resource type="Shader" uid="uid://b03wgdu58sqnq" path="res://scripts/shaders/ripple.gdshader" id="2_muem4"]
 [ext_resource type="Script" uid="uid://dnsgf8cb64at8" path="res://scripts/enemyhandler.gd" id="3_sugp2"]
 [ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="4_jyhfs"]
-[ext_resource type="Texture2D" uid="uid://beidjx3vw2l5m" path="res://assets/textures/health.png" id="5_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://bt512s5rg8fuv" path="res://assets/audio/sfx/blipSelect.wav" id="5_a8y0u"]
 [ext_resource type="Script" uid="uid://jmgiqgxrm7x7" path="res://scripts/fps.gd" id="6_85g3d"]
+[ext_resource type="Script" uid="uid://b8ck0vybqfvx" path="res://scripts/mousehandler.gd" id="6_jkv2x"]
 [ext_resource type="Script" uid="uid://cp5dl6rs4oov2" path="res://scripts/ballon.gd" id="6_tefeu"]
+[ext_resource type="Texture2D" uid="uid://ywcccaqkucu" path="res://assets/textures/mouse.png" id="7_jbj1t"]
+[ext_resource type="Script" uid="uid://dfnoiryouuji7" path="res://scripts/choicehandler.gd" id="7_muem4"]
 [ext_resource type="AudioStream" uid="uid://dsaj5le63txuc" path="res://assets/audio/chill-synthwave-211190.mp3" id="8_tipki"]
-[ext_resource type="Script" uid="uid://cc656msxqgoa" path="res://scripts/pixel.gd" id="9_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://b5g5stji34baq" path="res://assets/textures/health/row-1-column-1.png" id="10_og1vs"]
+[ext_resource type="Texture2D" uid="uid://6eoofqfqcchl" path="res://assets/textures/health/row-1-column-2.png" id="11_2wyq8"]
 [ext_resource type="Shader" uid="uid://sl7vbuycuolg" path="res://scripts/shaders/blur.gdshader" id="11_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="12_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://urxodm80tonu" path="res://assets/textures/health/row-1-column-3.png" id="12_vxglm"]
+[ext_resource type="Texture2D" uid="uid://q0qlka6efm6w" path="res://assets/textures/health/row-1-column-4.png" id="13_2f3dj"]
 [ext_resource type="PackedScene" uid="uid://cn5untyj0vd3g" path="res://scenes/logger.tscn" id="13_trceg"]
+[ext_resource type="Texture2D" uid="uid://clcqtc8ffqloj" path="res://assets/textures/health/row-1-column-5.png" id="14_yq6so"]
+[ext_resource type="Texture2D" uid="uid://od216ao2n73g" path="res://assets/textures/health/row-1-column-6.png" id="15_fv21b"]
+[ext_resource type="Texture2D" uid="uid://6oxpynxmax46" path="res://assets/textures/health/row-1-column-7.png" id="16_tel4y"]
+[ext_resource type="Texture2D" uid="uid://buqenkrn65stx" path="res://assets/textures/health/row-1-column-8.png" id="17_qkpxi"]
+[ext_resource type="Texture2D" uid="uid://exg3mvhohd1b" path="res://assets/textures/health/row-1-column-9.png" id="18_5q0nq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_muem4"]
+resource_local_to_scene = true
+shader = ExtResource("2_muem4")
+shader_parameter/r_displacement = Vector2(3, 0)
+shader_parameter/g_displacement = Vector2(0, 500)
+shader_parameter/b_displacement = Vector2(-3, 0)
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_og1vs"]
+frames = 9
+speed_scale = 10.0
+frame_0/texture = ExtResource("10_og1vs")
+frame_1/texture = ExtResource("11_2wyq8")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("12_vxglm")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("13_2f3dj")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("14_yq6so")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("15_fv21b")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("16_tel4y")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("17_qkpxi")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("18_5q0nq")
+frame_8/duration = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
 font = ExtResource("4_jyhfs")
@@ -28,11 +68,6 @@ glow_hdr_threshold = 0.59
 
 [sub_resource type="QuadMesh" id="QuadMesh_eb6dy"]
 size = Vector2(5, 5)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_trceg"]
-resource_local_to_scene = true
-custom_solver_bias = 1.0
-b = Vector2(-100, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eb6dy"]
 shader = ExtResource("11_ya4ey")
@@ -53,6 +88,15 @@ script = ExtResource("1_choun")
 layer = -1
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_muem4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -70,7 +114,11 @@ script = ExtResource("2_0wfyh")
 
 [node name="enemyhandler" type="Node" parent="."]
 script = ExtResource("3_sugp2")
-enemy_count = 1
+enemy_count = 5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="enemyhandler"]
+stream = ExtResource("5_a8y0u")
+volume_db = -15.0
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="enemyhandler"]
 emitting = false
@@ -94,7 +142,25 @@ autostart = true
 
 [node name="enemys" type="Node2D" parent="enemyhandler"]
 
+[node name="choicehandler" type="Node" parent="."]
+script = ExtResource("7_muem4")
+
+[node name="mousehandler" type="Node2D" parent="."]
+script = ExtResource("6_jkv2x")
+
+[node name="Sprite2D" type="Sprite2D" parent="mousehandler"]
+top_level = true
+texture = ExtResource("7_jbj1t")
+
 [node name="scores" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="scores"]
+visible = false
+offset_left = 1145.0
+offset_right = 1172.0
+offset_bottom = 27.0
+texture = SubResource("AnimatedTexture_og1vs")
+expand_mode = 2
 
 [node name="Control" type="Control" parent="scores"]
 layout_mode = 3
@@ -111,22 +177,15 @@ offset_bottom = 23.0
 text = "Score: 0nm"
 label_settings = SubResource("LabelSettings_tbgi4")
 
-[node name="TextureRect" type="TextureRect" parent="scores/Control"]
-layout_mode = 2
-offset_left = 1145.0
-offset_right = 1172.0
-offset_bottom = 27.0
-texture = ExtResource("5_tbgi4")
-expand_mode = 2
-
 [node name="HBoxContainer" type="HBoxContainer" parent="scores/Control"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = -1
+anchor_left = 0.852344
 anchor_right = 1.0
-offset_left = -135.0
-offset_bottom = 27.0
+anchor_bottom = 0.0375
 grow_horizontal = 0
+alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="fps" type="Label" parent="scores/Control"]
 layout_mode = 1
@@ -147,20 +206,6 @@ script = ExtResource("6_tefeu")
 
 [node name="pixelmesh" type="MeshInstance2D" parent="ballon"]
 mesh = SubResource("QuadMesh_eb6dy")
-
-[node name="pixel" type="StaticBody2D" parent="ballon"]
-collision_layer = 41
-collision_mask = 41
-script = ExtResource("9_eb6dy")
-
-[node name="CollisionPolygon2D" type="CollisionShape2D" parent="ballon/pixel"]
-top_level = true
-shape = SubResource("SegmentShape2D_trceg")
-one_way_collision_margin = 128.0
-debug_color = Color(0.98763, 0, 0.310936, 0.42)
-
-[node name="pixels" type="Node2D" parent="ballon/pixel"]
-top_level = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="ballon"]
 collision_layer = 32
@@ -258,6 +303,14 @@ text = "RESTART"
 visible = false
 
 [node name="Logger" parent="." instance=ExtResource("13_trceg")]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(640, 0)
+amount = 150
+lifetime = 20.0
+emission_shape = 3
+emission_rect_extents = Vector2(640, 20)
+gravity = Vector2(122.5, 122.5)
 
 [connection signal="timeout" from="enemyhandler/Timer" to="enemyhandler" method="_on_timer_timeout"]
 [connection signal="timeout" from="ballon/Timer" to="ballon" method="_on_timer_timeout"]

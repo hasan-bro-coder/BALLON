@@ -5,11 +5,21 @@ signal die(name: String)
 
 @onready var area: Area2D = $Area2D
 @onready var player: CharacterBody2D = $"../../../player"
+@onready var camera: Camera2D = $"../../../Camera2D"
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer
+@onready var dieaudio: AudioStreamPlayer = $dieaudio
 @onready var logger: Node2D = $"../../../Logger"
 
-@export var health: int = 10
+
+@export var health: int = 10:
+	set(value):
+		if value <= 0:
+			health = 0
+		else:
+			health = value
+
 var soft_collision_strength: float = 800
 const SPEED: float = 300.0
 var knockback: Vector2 = Vector2.ZERO
@@ -22,7 +32,7 @@ func apply_soft_collision(delta) -> void:
 		if collider.is_in_group("enemy"):
 			velocity += collider.global_position.direction_to(global_position).normalized() * soft_collision_strength * delta
 
-var scoreAdd = 300
+@export var scoreAdd = 300
 
 var tween: Tween
 var tween2: Tween
@@ -52,26 +62,26 @@ func damage(pos):
 	if died:
 		return
 		
-	if !audio.playing:
-		audio.pitch_scale = randf_range(0.9,1.10)
-		audio.play()
-		playit = true
 		
-		
-	health -= 1
-	if health <= 0:
-		Global.score += scoreAdd
+	health -= 1 + Global.damage
+	if health == 0:
 		died = true
-		logger.add("+300",global_position)
+		Global.score += scoreAdd * Global.scoreM
+		camera.shake()
+		logger.add("+"+str(int(floor(scoreAdd * Global.scoreM))),global_position)
 		#dieparticle.emitting = true
 		die.emit(name)
 		sprite_2d.hide()
 		#await dieparticle.finished
-		await audio.finished
+		dieaudio.play()
+		await dieaudio.finished
 		queue_free()
 	apply_knockback(pos,500)
 	move_and_slide()
-	
+	if !audio.playing:
+		audio.pitch_scale = randf_range(0.9,1.10)
+		audio.play()
+		playit = true
 	if tween and tween.is_running(): 
 		return
 		#tween.stop()

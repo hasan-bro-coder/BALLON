@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cl5sb84c16esg"]
+[gd_scene load_steps=9 format=3 uid="uid://cl5sb84c16esg"]
 
 [ext_resource type="Script" uid="uid://d4a02jdoecf5g" path="res://scripts/enemys/walker.gd" id="1_17kp1"]
 [ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_4hskk"]
 [ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="3_4hskk"]
 [ext_resource type="Texture2D" uid="uid://c3b8h8sdgswl4" path="res://assets/textures/enemy/walker.png" id="3_bured"]
+[ext_resource type="AudioStream" uid="uid://bd4twa5r6bw31" path="res://assets/audio/sfx/enemydead.wav" id="5_ernct"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_md0e3"]
 resource_local_to_scene = true
@@ -20,6 +21,7 @@ size = Vector2(42, 38)
 collision_layer = 8
 collision_mask = 9
 script = ExtResource("1_17kp1")
+scoreAdd = 100
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0, 0.35, 1)
@@ -41,5 +43,9 @@ shape = SubResource("RectangleShape2D_md0e3")
 stream = ExtResource("3_4hskk")
 volume_db = -8.0
 mix_target = 1
+
+[node name="dieaudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ernct")
+volume_db = -2.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

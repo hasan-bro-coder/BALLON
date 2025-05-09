@@ -106,7 +106,7 @@ offset_top = -360.0
 offset_bottom = -360.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.133333, 0.137255, 0.137255, 1)
+color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect3" type="ColorRect" parent="transition"]
@@ -121,7 +121,7 @@ offset_right = -3.0
 offset_bottom = 363.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.133333, 0.137255, 0.137255, 1)
+color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

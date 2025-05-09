@@ -5,16 +5,22 @@ const SHOOTER = preload("res://scenes/enemys/shooter.tscn")
 const BOMBER = preload("res://scenes/enemys/bomber.tscn")
 const JUMPER = preload("res://scenes/enemys/jumper.tscn")
 var enemytypes: Array[PackedScene] = [
-	#WALKER,
-	#SHOOTER,
-	#BOMBER,
+	WALKER,
+	SHOOTER,
+	BOMBER,
 	JUMPER
 ]
 var enemys_on_map: Dictionary[String,Enemy] = {
 	
 }
 
-@export var enemy_count = 5
+signal no_enemy()
+
+var wait = false
+
+@onready var audio_spawn: AudioStreamPlayer = $AudioStreamPlayer
+
+@export var enemy_count = 1
 @onready var enemys: Node2D = $enemys
 
 func generate_unique_id(length := 6) -> String:
@@ -26,24 +32,41 @@ func generate_unique_id(length := 6) -> String:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	no_enemy.emit()
 	#spawn_group()
 	
 	pass # Replace with function body.
+	
+var emmited = false
+func _physics_process(delta: float) -> void:
+	if len(enemys_on_map) == 0:
+		if !emmited:
+			return
+		no_enemy.emit()
+		emmited = false
+	else:
+		emmited = true
+		
+	
 func spawn_group():
+	if wait:
+		return
 	if len(enemys_on_map) == 0:
 		for i in enemy_count:
 			await get_tree().create_timer(0.5).timeout
 			spawn()
 func spawn():
+	if wait:
+		return
 	var enemy = enemytypes.pick_random().instantiate()
 	var pos = Vector2(randi_range((1280/2)-($"../ballon".radius / 2),(1280/2)+($"../ballon".radius / 2)),300)
 	enemy.global_position = pos
 	$CPUParticles2D.global_position = pos
 	$CPUParticles2D.emitting = true
+	audio_spawn.play()
 	var id = generate_unique_id()
 	enemy.name = id
 	enemy.die.connect(func(did):
-		#print(enemys_on_map)
 		if enemys_on_map.has(did):
 			enemys_on_map.erase(did)
 	)
@@ -52,5 +75,7 @@ func spawn():
 	
 
 func _on_timer_timeout() -> void:
+	if wait:
+		return
 	spawn_group()
 	pass # Replace with function body.

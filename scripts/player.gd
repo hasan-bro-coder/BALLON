@@ -24,6 +24,7 @@ const BULLET = preload("res://scenes/bullet.tscn")
 @onready var damage_audio: AudioStreamPlayer = $damage
 @onready var shoot_audio: AudioStreamPlayer = $shoot
 
+@onready var logger: Node2D = $"../Logger"
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -53,7 +54,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = lerpf(velocity.x, 0, delta*6)
 		velocity.y = lerpf(velocity.y, 0, delta*6)
 		
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) || Input.is_key_pressed(KEY_E):
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) || Input.is_key_pressed(KEY_SPACE):
 		if delay.is_stopped():
 			shoot()
 	else:
@@ -107,6 +108,9 @@ func shoot():
 	pass
 
 func damage():
+	camera_2d.shake(1,10)
+	$damage.play()
+	logger.add("ouch",global_position,Color.from_rgba8(255,0,90))
 	#damage_audio.play()
 	Global.health -= 1
 	if Global.health <= 0:

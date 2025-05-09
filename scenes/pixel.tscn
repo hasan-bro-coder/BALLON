@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqqgyb7s4hjnm"]
+
+[ext_resource type="Script" uid="uid://cc656msxqgoa" path="res://scripts/pixel.gd" id="1_tapjd"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_trceg"]
+resource_local_to_scene = true
+custom_solver_bias = 1.0
+b = Vector2(-100, 0)
+
+[node name="pixel" type="StaticBody2D"]
+collision_layer = 41
+collision_mask = 41
+script = ExtResource("1_tapjd")
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
+top_level = true
+shape = SubResource("SegmentShape2D_trceg")
+one_way_collision_margin = 128.0
+debug_color = Color(0.98763, 0, 0.310936, 0.42)
+
+[node name="pixels" type="Node2D" parent="."]
+top_level = true

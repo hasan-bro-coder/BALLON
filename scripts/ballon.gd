@@ -1,13 +1,13 @@
 extends Node2D
 
-@onready var pixel = $pixel
+#@onready var pixel = $pixel
 @onready var ballons: Node2D = $ballons
 
 #@onready var line: Line2D = $Line2D
 @onready var collision_polygon_2d: CollisionPolygon2D = $StaticBody2D/CollisionPolygon2D
 # Set this to your pixel mesh (e.g., a QuadMesh in a MeshInstance2D scene)
-@export var pixel_scene: PackedScene
 
+const PIXEL = preload("res://scenes/pixel.tscn")
 const SCREEN_SIZE := Vector2(1280, 720)
 const GRID_SIZE := Vector2(1280/5, 720/5)
 const PIXEL_SIZE := Vector2i(5,5)  # Size of each pixel in screen coords
@@ -102,7 +102,8 @@ func build():
 		var angle = TAU * i / count
 		var pos = center + Vector2(cos(angle), sin(angle)) * radius
 		positions.append(pos)
-		var m: Node2D = pixel.duplicate()
+		var pixel = PIXEL.instantiate()
+		var m: Node2D = pixel
 		m.global_position = pos
 		m.movement = true if \
 		i % 2 == 0 \
@@ -140,11 +141,11 @@ func build():
 	#for pos in positions:
 		#line.add_point(pos)
 
-func draw_pixel(grid_pos: Vector2i,pos: Vector2):
+func draw_pixel(grid_pos: Vector2i):
 	#if not pixel_scene:
 		#return
 	
-	var instance = pixel.duplicate()
+	var instance =  PIXEL.instantiate()
 	var pixel_pos = Vector2(grid_pos.x * PIXEL_SIZE.x, grid_pos.y * PIXEL_SIZE.y)
 	instance.global_position = pixel_pos
 	ballons.add_child(instance)
@@ -168,7 +169,7 @@ func draw_bresenham_line(start: Vector2i, end: Vector2i):
 	var err = dx - dy
 
 	while true:
-		draw_pixel(Vector2i(x0, y0),start)
+		draw_pixel(Vector2i(x0, y0))
 		if x0 == x1 and y0 == y1:
 			break
 		var e2 = 2 * err

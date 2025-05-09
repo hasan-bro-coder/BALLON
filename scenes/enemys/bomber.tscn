@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8hx5q5rjh8uc"]
+[gd_scene load_steps=9 format=3 uid="uid://b8hx5q5rjh8uc"]
 
 [ext_resource type="Script" uid="uid://b44072spb61e5" path="res://scripts/enemys/bomber.gd" id="1_4sskk"]
 [ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_ak30p"]
+[ext_resource type="AudioStream" uid="uid://bd4twa5r6bw31" path="res://assets/audio/sfx/enemydead.wav" id="4_4sskk"]
 [ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="4_jgg52"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gl387"]
@@ -43,5 +44,9 @@ shape = SubResource("RectangleShape2D_k2h5v")
 stream = ExtResource("4_jgg52")
 volume_db = -8.0
 mix_target = 1
+
+[node name="dieaudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_4sskk")
+volume_db = -2.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

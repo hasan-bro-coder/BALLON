@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d4ntohu5seus1" path="res://assets/textures/player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://db5ogghtw62kg" path="res://scripts/player.gd" id="1_g2els"]
-[ext_resource type="AudioStream" uid="uid://ddolvtt3wbh2n" path="res://assets/audio/sfx/playerdamage.mp3" id="3_qhqgy"]
+[ext_resource type="AudioStream" uid="uid://dt0hkjqy5w0m3" path="res://assets/audio/sfx/playerhit.wav" id="3_dqkch"]
 [ext_resource type="AudioStream" uid="uid://bynfwms3kj5t4" path="res://assets/audio/sfx/shoot.mp3" id="4_dqkch"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
@@ -60,8 +60,8 @@ width = 5.0
 gradient = SubResource("Gradient_g2els")
 
 [node name="damage" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_qhqgy")
-volume_db = 10.0
+stream = ExtResource("3_dqkch")
+volume_db = -8.0
 
 [node name="shoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_dqkch")

@@ -8,7 +8,7 @@ var stage_state = [
 	{
 		"zoom": Vector2(2,2),
 		"radius": 150,
-		"scoreNext": 10000,
+		"scoreNext": 1000,
 		"scoreExt": 0
 	},
 	{
@@ -30,25 +30,33 @@ var stage_state = [
 		"scoreExt": 150000
 	}
 ]
-var enemyspawnrate = 100
+
+var scoreM = 1
+var damage = 0
 
 var score = 0:
+	get():
+		return floor(score)
 	set(value):
+		score = value
 		var scoreLabel: Label = $"../main/scores/Control/score"
 		var ballon: Node2D = $"../main/ballon"
-		scoreLabel.text = str(value)
+		if !scoreLabel:
+			return
+		scoreLabel.text = str(floor(value))
 		if value >= stage_state[stage]["scoreNext"]:
 			ballon.fill(20)
 			set_stage(stage+1)
 		else:
 			ballon.fill((floor(((value-stage_state[stage]["scoreExt"])*20))/(stage_state[stage]["scoreNext"]-stage_state[stage]["scoreExt"])))
-		score = value
 
 
 var health = 5:
 	set(value):
 		var health_bar: HBoxContainer = $"../main/scores/Control/HBoxContainer"
-		var heart: TextureRect = $"../main/scores/Control/TextureRect"
+		var heart: TextureRect = $"../main/scores/TextureRect"
+		if !heart:
+			return
 		if value == 0:
 			for i in health_bar.get_child_count():
 				health_bar.get_child(i).queue_free()
@@ -58,25 +66,44 @@ var health = 5:
 				
 				get_tree().paused = true
 			return
+		health = min(value,7)
 		for i in health_bar.get_child_count():
-			#if i == 0: continue
+			if i == 0: continue
 			health_bar.get_child(i).queue_free()
 		for i in value:
-			health_bar.add_child(heart.duplicate())
-		health = value
-var damage = 5
-var ballondamage = 5
+			var h = heart.duplicate()
+			h.show()
+			print("frame:",i)
+			health_bar.add_child(h)
+			#h.texture.speed_scale = i
+			h.texture.set_current_frame((i + 2) % 8)
+		
 
 
 func _ready() -> void:
+	#health = 5
 	#$"../main/ballon".ready.connect(func(): 
 		#set_stage(0)
 	#)
 	pass
 
+func _reset():
+	stage = 0
+	scoreM = 1
+	damage = 0
+	score = 0
+	health = 5
+	
 func set_stage(i):
 	$"../main/Camera2D".zoom_to = stage_state[i]["zoom"]
 	$"../main/ballon".radius = stage_state[i]["radius"]
+	if i != 0:
+		await $"../main/enemyhandler".no_enemy
+		$"../main/enemyhandler".wait = true
+		$"../main/choicehandler"._add()
+		$"../main/choicehandler".choice_done.connect(func():
+			$"../main/enemyhandler".wait = false
+		)
 	stage = i
 	$"../main/ballon".fill(0)
 	$"../main/ballon".build()
