@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func damage(pos):
+func damage(kpos):
 	if died:
 		return
 		
@@ -38,7 +38,7 @@ func damage(pos):
 		await dieaudio.finished
 		queue_free()
 
-	apply_knockback(pos,500)
+	apply_knockback(kpos,500)
 	move_and_slide()
 	
 	
@@ -82,8 +82,9 @@ func shoot(dir):
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
 		apply_soft_collision(1)
-	#if body == player:
-		
+	if body == player:
+		health = 1
+		damage(global_position)
 		#body.damage()
 		#queue_free()
 	pass # Replace with function body.

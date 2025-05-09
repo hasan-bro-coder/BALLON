@@ -16,8 +16,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		return
 	if body.is_in_group("enemy"):
 		apply_soft_collision(1)
-	#if body == player:
-		
-		#body.damage()
-		#queue_free()
+	if body == player:
+		body.damage()
+		queue_free()
 	pass # Replace with function body.

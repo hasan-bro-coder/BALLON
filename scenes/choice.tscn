@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ip2r3l7174an"]
+[gd_scene load_steps=9 format=3 uid="uid://ip2r3l7174an"]
 
 [ext_resource type="Script" uid="uid://bs8ylfe7etiqk" path="res://scripts/classes/choice.gd" id="1_ycxmd"]
 [ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="2_827pk"]
@@ -6,24 +6,40 @@
 [ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="3_827pk"]
 [ext_resource type="AudioStream" uid="uid://bd4twa5r6bw31" path="res://assets/audio/sfx/enemydead.wav" id="4_3iiop"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1ycek"]
+[sub_resource type="Curve" id="Curve_827pk"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.206226), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3iiop"]
 resource_local_to_scene = true
 shader = ExtResource("2_827pk")
 shader_parameter/flash = 0.0
 
-[node name="Choice" type="StaticBody2D" groups=["choice"]]
-script = ExtResource("1_ycxmd")
-metadata/_custom_type_script = "uid://bs8ylfe7etiqk"
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ycek"]
+radius = 18.0278
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_1ycek")
+[node name="Choice" type="StaticBody2D" groups=["choice"]]
+input_pickable = true
+script = ExtResource("1_ycxmd")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, -12)
+amount = 15
+emission_shape = 3
+emission_rect_extents = Vector2(18, 1)
+gravity = Vector2(0, -245)
+initial_velocity_max = 20.0
+scale_amount_min = 10.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_827pk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_3iiop")
 scale = Vector2(2, 2)
 texture = ExtResource("2_jt4bu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1ycek")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_827pk")
@@ -33,3 +49,7 @@ mix_target = 1
 [node name="dieaudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_3iiop")
 volume_db = -2.0
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_shape_entered" from="." to="." method="_on_mouse_shape_entered"]

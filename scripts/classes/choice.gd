@@ -1,5 +1,5 @@
 extends StaticBody2D
-class_name Choice
+#class_name Choice
 
 var data = {
 	"health": 0,
@@ -9,19 +9,36 @@ var data = {
 var health = 15
 
 signal choice_done
+signal hover
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var camera: Camera2D = $"../../Camera2D"
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer
 @onready var dieaudio: AudioStreamPlayer = $dieaudio
 
+var txt := ""
+
 func _ready() -> void:
-	match  randi_range(1,3):
+	change_data(randi_range(1,3))
+func change_data(num:int):
+	match num:
 		1:
-			data["health"] = randi_range(1,3)
+			var val = randi_range(1,3)
+			data["health"] = val
+			$Sprite2D.texture = preload("res://assets/textures/choice/love.png")
+			txt = "increase health by "+str(val)
+			
 		2:
-			data["damage"] = randi_range(1,3)
+			var val = randi_range(1,3)
+			data["damage"] = val
+			txt = "increase damage by "+str(val)
+			
 		3:
-			data["score"] = randf_range(0.5,1.5)
+			var val = randf_range(0.5,1.5)
+			data["score"] = val
+			$Sprite2D.texture = preload("res://assets/textures/choice/score.png")
+			txt = "increase score multiplier by "+String.num(val, 2)
+	
 
 func apply():
 	print(data)
@@ -39,7 +56,9 @@ var tween2: Tween
 
 func damage():
 	health -= 1
+	hover.emit(txt)
 	if health == 0:
+		
 		apply()
 		camera.shake()
 		choice_done.emit()
@@ -64,5 +83,3 @@ func damage():
 		#tween.tween_property(self,"scale",Vector2(1,1),0.2)
 		tween2.tween_property(sprite_2d,"material:shader_parameter/flash",0,0.1)
 	)
-	#sprite_2d.material.set_shader_parameter("flash",1.0)
-		

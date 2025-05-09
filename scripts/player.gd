@@ -108,7 +108,7 @@ func shoot():
 	pass
 
 func damage():
-	camera_2d.shake(1,10)
+	camera_2d.shake(0.5,7)
 	$damage.play()
 	logger.add("ouch",global_position,Color.from_rgba8(255,0,90))
 	#damage_audio.play()
@@ -117,6 +117,7 @@ func damage():
 		die()
 
 func die():
+	hide()
 	#hide()
 	pass		
 	

@@ -15,6 +15,7 @@ func _process(delta):
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("bullet"):
+		#dir += 30*randi_range(-1,1)
 		return
 		#$CPUParticles2D.emitting = true
 		#$Sprite2D.hide()

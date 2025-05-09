@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dvathl3wnaget"]
+[gd_scene load_steps=35 format=3 uid="uid://dvathl3wnaget"]
 
 [ext_resource type="Script" uid="uid://btlob61lw8ifc" path="res://scripts/main.gd" id="1_choun"]
 [ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_o5qli"]
@@ -32,6 +32,11 @@ shader = ExtResource("2_muem4")
 shader_parameter/r_displacement = Vector2(3, 0)
 shader_parameter/g_displacement = Vector2(0, 500)
 shader_parameter/b_displacement = Vector2(-3, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_og1vs"]
+font = ExtResource("4_jyhfs")
+font_size = 20
+outline_size = 1
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_og1vs"]
 frames = 9
@@ -114,7 +119,6 @@ script = ExtResource("2_0wfyh")
 
 [node name="enemyhandler" type="Node" parent="."]
 script = ExtResource("3_sugp2")
-enemy_count = 5
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="enemyhandler"]
 stream = ExtResource("5_a8y0u")
@@ -142,8 +146,23 @@ autostart = true
 
 [node name="enemys" type="Node2D" parent="enemyhandler"]
 
-[node name="choicehandler" type="Node" parent="."]
+[node name="choicehandler" type="Node2D" parent="."]
 script = ExtResource("7_muem4")
+
+[node name="Label" type="Label" parent="choicehandler"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 615.0
+offset_top = 278.0
+offset_right = 670.0
+offset_bottom = 301.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_og1vs")
+uppercase = true
 
 [node name="mousehandler" type="Node2D" parent="."]
 script = ExtResource("6_jkv2x")
@@ -241,6 +260,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="died/Control"]
+visible = false
 material = SubResource("ShaderMaterial_eb6dy")
 layout_mode = 1
 anchors_preset = 15
@@ -252,17 +272,13 @@ grow_vertical = 2
 [node name="lost" type="Label" parent="died/Control"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.228516
-anchor_top = 0.244444
-anchor_right = 0.772266
-anchor_bottom = 0.398611
-offset_left = 76.5
-offset_top = 7.0
-offset_right = -76.5
-offset_bottom = -7.0
+anchor_left = 0.353906
+anchor_top = 0.265278
+anchor_right = 0.646875
+anchor_bottom = 0.4
 grow_horizontal = 2
 grow_vertical = 2
-text = "Bruh You Lost"
+text = "Run Failed"
 label_settings = SubResource("LabelSettings_ya4ey")
 metadata/_edit_use_anchors_ = true
 
@@ -298,9 +314,9 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_jyhfs")
 theme_override_font_sizes/font_size = 24
 text = "RESTART"
+flat = true
 
 [node name="Transition" parent="." instance=ExtResource("12_eb6dy")]
-visible = false
 
 [node name="Logger" parent="." instance=ExtResource("13_trceg")]
 

@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 
 signal choice_done
@@ -12,25 +12,40 @@ func _ready() -> void:
 
 
 func _add():
+	$Label.show()
 	var c = CHOICE.instantiate()
+	var c2 = CHOICE.instantiate()
 	
-	c.global_position.x += (1280/2) + 40
+	while c.data == c2.data:
+		c.change_data(randi_range(1,3))
+	
+	add_child(c)
+	add_child(c2)
+	
+	c.global_position.x += (1280/2) + 60
 	c.global_position.y += (720/2)
+	c.hover.connect(
+		func(data):
+			$Label.text = data
+	)
 	c.choice_done.connect(
 		func():
 			choice_done.emit()
-			c.queue_free()
+			c2.queue_free()
+			$Label.hide()
 	)
-	add_child(c)
 	
-	var c2 = CHOICE.instantiate()
 	
-	c2.global_position.x += (1280/2) - 40
+	c2.global_position.x += (1280/2) - 60
 	c2.global_position.y += (720/2)
+	c2.hover.connect(
+		func(data):
+			$Label.text = data
+	)
 	c2.choice_done.connect(func():
 			choice_done.emit()
 			c.queue_free()
+			$Label.hide()
 	)
-	add_child(c2)
 	
 	

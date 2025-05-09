@@ -20,7 +20,7 @@ var wait = false
 
 @onready var audio_spawn: AudioStreamPlayer = $AudioStreamPlayer
 
-@export var enemy_count = 1
+#var enemy_count = 1
 @onready var enemys: Node2D = $enemys
 
 func generate_unique_id(length := 6) -> String:
@@ -51,9 +51,11 @@ func _physics_process(delta: float) -> void:
 func spawn_group():
 	if wait:
 		return
+	await get_tree().create_timer(1).timeout
 	if len(enemys_on_map) == 0:
-		for i in enemy_count:
-			await get_tree().create_timer(0.5).timeout
+		for i in randi_range(3,4+Global.stage*2):
+			audio_spawn.pitch_scale = 0.8+i/10
+			await get_tree().create_timer(0.7).timeout
 			spawn()
 func spawn():
 	if wait:
@@ -76,6 +78,9 @@ func spawn():
 
 func _on_timer_timeout() -> void:
 	if wait:
+		return
+	if Global.health == 0:
+		$enemys.hide()
 		return
 	spawn_group()
 	pass # Replace with function body.

@@ -34,6 +34,8 @@ var stage_state = [
 var scoreM = 1
 var damage = 0
 
+var score_done = false
+
 var score = 0:
 	get():
 		return floor(score)
@@ -46,7 +48,9 @@ var score = 0:
 		scoreLabel.text = str(floor(value))
 		if value >= stage_state[stage]["scoreNext"]:
 			ballon.fill(20)
-			set_stage(stage+1)
+			if score_done == false:
+				set_stage(stage+1)
+			score_done = true
 		else:
 			ballon.fill((floor(((value-stage_state[stage]["scoreExt"])*20))/(stage_state[stage]["scoreNext"]-stage_state[stage]["scoreExt"])))
 
@@ -73,7 +77,7 @@ var health = 5:
 		for i in value:
 			var h = heart.duplicate()
 			h.show()
-			print("frame:",i)
+			#print("frame:",i)
 			health_bar.add_child(h)
 			#h.texture.speed_scale = i
 			h.texture.set_current_frame((i + 2) % 8)
@@ -107,4 +111,5 @@ func set_stage(i):
 	stage = i
 	$"../main/ballon".fill(0)
 	$"../main/ballon".build()
+	score_done = false
 	#$"../main/ballon".build()
