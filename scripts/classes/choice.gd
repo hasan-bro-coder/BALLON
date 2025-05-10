@@ -21,24 +21,30 @@ var txt := ""
 func _ready() -> void:
 	change_data(randi_range(1,3))
 func change_data(num:int):
+	data = {
+	"health": 0,
+	"damage": 0,
+	"score": 0
+}
 	match num:
 		1:
 			var val = randi_range(1,3)
 			data["health"] = val
 			$Sprite2D.texture = preload("res://assets/textures/choice/love.png")
 			txt = "increase health by "+str(val)
-			
+			return
 		2:
 			var val = randi_range(1,3)
 			data["damage"] = val
+			$Sprite2D.texture = preload("res://assets/textures/choice/attack.png")
 			txt = "increase damage by "+str(val)
-			
+			return
 		3:
 			var val = randf_range(0.5,1.5)
 			data["score"] = val
 			$Sprite2D.texture = preload("res://assets/textures/choice/score.png")
 			txt = "increase score multiplier by "+String.num(val, 2)
-	
+			return
 
 func apply():
 	print(data)
@@ -58,7 +64,6 @@ func damage():
 	health -= 1
 	hover.emit(txt)
 	if health == 0:
-		
 		apply()
 		camera.shake()
 		choice_done.emit()

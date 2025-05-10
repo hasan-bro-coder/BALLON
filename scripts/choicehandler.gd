@@ -9,9 +9,10 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-
+var cd = false
 
 func _add():
+	cd = false
 	$Label.show()
 	var c = CHOICE.instantiate()
 	var c2 = CHOICE.instantiate()
@@ -30,7 +31,9 @@ func _add():
 	)
 	c.choice_done.connect(
 		func():
-			choice_done.emit()
+			if !cd:
+				choice_done.emit()
+				cd = true
 			c2.queue_free()
 			$Label.hide()
 	)
@@ -43,7 +46,9 @@ func _add():
 			$Label.text = data
 	)
 	c2.choice_done.connect(func():
-			choice_done.emit()
+			if !cd:
+				choice_done.emit()
+				cd = true
 			c.queue_free()
 			$Label.hide()
 	)

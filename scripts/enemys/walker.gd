@@ -18,5 +18,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		apply_soft_collision(1)
 	if body == player:
 		body.damage()
+		died = true
+		camera.shake()
+		die.emit(name)
+		sprite_2d.hide()
+		dieaudio.play()
+		await dieaudio.finished
 		queue_free()
 	pass # Replace with function body.

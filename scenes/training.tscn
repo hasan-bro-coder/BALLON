@@ -1,0 +1,106 @@
+[gd_scene load_steps=13 format=3 uid="uid://d2ox7up6lwwi1"]
+
+[ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_c5wwr"]
+[ext_resource type="Script" uid="uid://d0qrolujl3p48" path="res://scripts/training.gd" id="1_nvloa"]
+[ext_resource type="Script" uid="uid://tvkhsob8e0r6" path="res://scripts/camera.gd" id="2_nvloa"]
+[ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_xtug4"]
+[ext_resource type="Script" uid="uid://b8ck0vybqfvx" path="res://scripts/mousehandler.gd" id="3_xtug4"]
+[ext_resource type="Texture2D" uid="uid://ywcccaqkucu" path="res://assets/textures/mouse.png" id="4_4cjul"]
+[ext_resource type="Script" uid="uid://cp5dl6rs4oov2" path="res://scripts/ballon.gd" id="5_c03ob"]
+[ext_resource type="AudioStream" uid="uid://dsaj5le63txuc" path="res://assets/audio/chill-synthwave-211190.mp3" id="6_ndv2e"]
+[ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="7_8ihin"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4cjul"]
+font = ExtResource("2_xtug4")
+font_size = 50
+font_color = Color(1, 0, 0.352941, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_4njoh"]
+size = Vector2(5, 5)
+
+[sub_resource type="Environment" id="Environment_xtug4"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 5.37
+glow_bloom = 0.01
+glow_blend_mode = 1
+glow_hdr_threshold = 0.59
+
+[node name="Training" type="Node2D"]
+script = ExtResource("1_nvloa")
+
+[node name="enemycon" type="Node2D" parent="."]
+
+[node name="enemycon" type="Node2D" parent="enemycon"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -288.0
+offset_top = 57.0
+offset_right = 288.0
+offset_bottom = 117.0
+grow_horizontal = 2
+text = "hello welcome to BALLON"
+label_settings = SubResource("LabelSettings_4cjul")
+horizontal_alignment = 1
+
+[node name="player" parent="." instance=ExtResource("1_c5wwr")]
+position = Vector2(624, 343)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+zoom = Vector2(1.5, 1.5)
+script = ExtResource("2_nvloa")
+
+[node name="mousehandler" type="Node2D" parent="."]
+script = ExtResource("3_xtug4")
+
+[node name="Sprite2D" type="Sprite2D" parent="mousehandler"]
+top_level = true
+texture = ExtResource("4_4cjul")
+
+[node name="ballon" type="Node2D" parent="."]
+script = ExtResource("5_c03ob")
+
+[node name="pixelmesh" type="MeshInstance2D" parent="ballon"]
+mesh = SubResource("QuadMesh_4njoh")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ballon"]
+collision_layer = 32
+collision_mask = 32
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ballon/StaticBody2D"]
+build_mode = 1
+one_way_collision = true
+one_way_collision_margin = 128.0
+
+[node name="Timer" type="Timer" parent="ballon"]
+wait_time = 0.1
+
+[node name="ballons" type="Node2D" parent="ballon"]
+
+[node name="bgm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ndv2e")
+volume_db = -20.0
+autoplay = true
+mix_target = 1
+parameters/looping = true
+
+[node name="Transition" parent="." instance=ExtResource("7_8ihin")]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(640, 0)
+amount = 150
+lifetime = 20.0
+emission_shape = 3
+emission_rect_extents = Vector2(640, 20)
+gravity = Vector2(122.5, 122.5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xtug4")
+
+[connection signal="timeout" from="ballon/Timer" to="ballon" method="_on_timer_timeout"]

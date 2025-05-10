@@ -1,9 +1,8 @@
-[gd_scene load_steps=35 format=3 uid="uid://dvathl3wnaget"]
+[gd_scene load_steps=29 format=3 uid="uid://dvathl3wnaget"]
 
 [ext_resource type="Script" uid="uid://btlob61lw8ifc" path="res://scripts/main.gd" id="1_choun"]
 [ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://tvkhsob8e0r6" path="res://scripts/camera.gd" id="2_0wfyh"]
-[ext_resource type="Shader" uid="uid://b03wgdu58sqnq" path="res://scripts/shaders/ripple.gdshader" id="2_muem4"]
 [ext_resource type="Script" uid="uid://dnsgf8cb64at8" path="res://scripts/enemyhandler.gd" id="3_sugp2"]
 [ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="4_jyhfs"]
 [ext_resource type="AudioStream" uid="uid://bt512s5rg8fuv" path="res://assets/audio/sfx/blipSelect.wav" id="5_a8y0u"]
@@ -15,7 +14,6 @@
 [ext_resource type="AudioStream" uid="uid://dsaj5le63txuc" path="res://assets/audio/chill-synthwave-211190.mp3" id="8_tipki"]
 [ext_resource type="Texture2D" uid="uid://b5g5stji34baq" path="res://assets/textures/health/row-1-column-1.png" id="10_og1vs"]
 [ext_resource type="Texture2D" uid="uid://6eoofqfqcchl" path="res://assets/textures/health/row-1-column-2.png" id="11_2wyq8"]
-[ext_resource type="Shader" uid="uid://sl7vbuycuolg" path="res://scripts/shaders/blur.gdshader" id="11_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="12_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://urxodm80tonu" path="res://assets/textures/health/row-1-column-3.png" id="12_vxglm"]
 [ext_resource type="Texture2D" uid="uid://q0qlka6efm6w" path="res://assets/textures/health/row-1-column-4.png" id="13_2f3dj"]
@@ -25,13 +23,6 @@
 [ext_resource type="Texture2D" uid="uid://6oxpynxmax46" path="res://assets/textures/health/row-1-column-7.png" id="16_tel4y"]
 [ext_resource type="Texture2D" uid="uid://buqenkrn65stx" path="res://assets/textures/health/row-1-column-8.png" id="17_qkpxi"]
 [ext_resource type="Texture2D" uid="uid://exg3mvhohd1b" path="res://assets/textures/health/row-1-column-9.png" id="18_5q0nq"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_muem4"]
-resource_local_to_scene = true
-shader = ExtResource("2_muem4")
-shader_parameter/r_displacement = Vector2(3, 0)
-shader_parameter/g_displacement = Vector2(0, 500)
-shader_parameter/b_displacement = Vector2(-3, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_og1vs"]
 font = ExtResource("4_jyhfs")
@@ -74,40 +65,8 @@ glow_hdr_threshold = 0.59
 [sub_resource type="QuadMesh" id="QuadMesh_eb6dy"]
 size = Vector2(5, 5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eb6dy"]
-shader = ExtResource("11_ya4ey")
-shader_parameter/lod = 2.99
-
-[sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
-font = ExtResource("4_jyhfs")
-font_size = 80
-
-[sub_resource type="LabelSettings" id="LabelSettings_eb6dy"]
-font = ExtResource("4_jyhfs")
-font_size = 24
-
 [node name="main" type="Node2D"]
 script = ExtResource("1_choun")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource("ShaderMaterial_muem4")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.133333, 0.137255, 0.137255, 1)
 
 [node name="player" parent="." instance=ExtResource("1_o5qli")]
 position = Vector2(624, 343)
@@ -163,6 +122,7 @@ grow_horizontal = 2
 grow_vertical = 2
 label_settings = SubResource("LabelSettings_og1vs")
 uppercase = true
+metadata/_edit_use_anchors_ = true
 
 [node name="mousehandler" type="Node2D" parent="."]
 script = ExtResource("6_jkv2x")
@@ -188,6 +148,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="score" type="Label" parent="scores/Control"]
 layout_mode = 0
@@ -195,6 +156,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "Score: 0nm"
 label_settings = SubResource("LabelSettings_tbgi4")
+metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="scores/Control"]
 layout_mode = 1
@@ -216,6 +178,7 @@ offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
 script = ExtResource("6_85g3d")
+metadata/_edit_use_anchors_ = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sgp6g")
@@ -243,78 +206,9 @@ wait_time = 0.1
 [node name="bgm" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_tipki")
 volume_db = -20.0
+autoplay = true
 mix_target = 1
 parameters/looping = true
-
-[node name="died" type="CanvasLayer" parent="."]
-process_mode = 3
-layer = 3
-visible = false
-
-[node name="Control" type="Control" parent="died"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRect" type="ColorRect" parent="died/Control"]
-visible = false
-material = SubResource("ShaderMaterial_eb6dy")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="lost" type="Label" parent="died/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.353906
-anchor_top = 0.265278
-anchor_right = 0.646875
-anchor_bottom = 0.4
-grow_horizontal = 2
-grow_vertical = 2
-text = "Run Failed"
-label_settings = SubResource("LabelSettings_ya4ey")
-metadata/_edit_use_anchors_ = true
-
-[node name="score" type="Label" parent="died/Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -61.0
-offset_right = 30.0
-offset_bottom = -38.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "score: 0"
-label_settings = SubResource("LabelSettings_eb6dy")
-
-[node name="restart" type="Button" parent="died/Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -36.5
-offset_top = -14.0
-offset_right = 36.5
-offset_bottom = 14.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_jyhfs")
-theme_override_font_sizes/font_size = 24
-text = "RESTART"
-flat = true
 
 [node name="Transition" parent="." instance=ExtResource("12_eb6dy")]
 
@@ -330,4 +224,3 @@ gravity = Vector2(122.5, 122.5)
 
 [connection signal="timeout" from="enemyhandler/Timer" to="enemyhandler" method="_on_timer_timeout"]
 [connection signal="timeout" from="ballon/Timer" to="ballon" method="_on_timer_timeout"]
-[connection signal="pressed" from="died/Control/restart" to="." method="_on_restart_pressed"]

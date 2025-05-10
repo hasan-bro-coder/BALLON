@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func damage(kpos):
+func damage(kpos,_kp=true):
 	if died:
 		return
 		

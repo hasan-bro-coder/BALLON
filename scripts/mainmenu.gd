@@ -16,7 +16,6 @@ func _process(delta: float) -> void:
 	
 	pass
 
-@onready var anime: AnimationPlayer = $AnimationPlayer
 
 func _on_button_pressed() -> void:
 	click.play()
@@ -24,7 +23,7 @@ func _on_button_pressed() -> void:
 	#$CanvasLayer/Control/TextureRect.modulate = Color.from_rgba8(255,0,99)
 	#tween.tween_property($CanvasLayer/ColorRect, "color", Color.BLACK, 2)
 	$Transition.play("close",func():
-		get_tree().change_scene_to_file("res://scenes/main.tscn")
+		get_tree().change_scene_to_file("res://scenes/intro.tscn")
 	)
 	pass # Replace with function body.
 

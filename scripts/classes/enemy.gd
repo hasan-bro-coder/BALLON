@@ -58,7 +58,7 @@ func apply_knockback(from_position: Vector2, strength: float):
 
 
 
-func damage(pos):
+func damage(pos,kb=true):
 	if died:
 		return
 		
@@ -68,7 +68,8 @@ func damage(pos):
 		died = true
 		Global.score += scoreAdd * Global.scoreM
 		camera.shake()
-		logger.add("+"+str(int(floor(scoreAdd * Global.scoreM))),global_position)
+		if logger:
+			logger.add("+"+str(int(floor(scoreAdd * Global.scoreM))),global_position)
 		#dieparticle.emitting = true
 		die.emit(name)
 		sprite_2d.hide()
@@ -76,8 +77,9 @@ func damage(pos):
 		dieaudio.play()
 		await dieaudio.finished
 		queue_free()
-	apply_knockback(pos,500)
-	move_and_slide()
+	if kb:
+		apply_knockback(pos,500)
+		move_and_slide()
 	if !audio.playing:
 		audio.pitch_scale = randf_range(0.9,1.10)
 		audio.play()

@@ -97,7 +97,6 @@ script = ExtResource("1_rerct")
 
 [node name="transition" type="CanvasLayer" parent="."]
 layer = 7
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="transition"]
 anchors_preset = -1

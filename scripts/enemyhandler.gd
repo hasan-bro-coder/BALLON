@@ -4,11 +4,14 @@ const WALKER = preload("res://scenes/enemys/walker.tscn")
 const SHOOTER = preload("res://scenes/enemys/shooter.tscn")
 const BOMBER = preload("res://scenes/enemys/bomber.tscn")
 const JUMPER = preload("res://scenes/enemys/jumper.tscn")
+const BOSS = preload("res://scenes/enemys/boss.tscn")
+
 var enemytypes: Array[PackedScene] = [
 	WALKER,
 	SHOOTER,
 	BOMBER,
-	JUMPER
+	JUMPER,
+	#BOSS
 ]
 var enemys_on_map: Dictionary[String,Enemy] = {
 	
@@ -38,7 +41,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 	
 var emmited = false
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if len(enemys_on_map) == 0:
 		if !emmited:
 			return
@@ -53,15 +56,44 @@ func spawn_group():
 		return
 	await get_tree().create_timer(1).timeout
 	if len(enemys_on_map) == 0:
+		if Global.health == 0:
+			$enemys.hide()
+			return
 		for i in randi_range(3,4+Global.stage*2):
 			audio_spawn.pitch_scale = 0.8+i/10
 			await get_tree().create_timer(0.7).timeout
 			spawn()
+
+var final_stage = false
+func spawn_boss():
+	print("spawned Bosss")
+	final_stage = true
+	var enemy = BOSS.instantiate()
+	var pos = Vector2(randi_range((1280/2)-($"../ballon".radius / 2),(1280/2)+($"../ballon".radius / 2)),randi_range((720/2)-($"../ballon".radius / 2),(720/2)+($"../ballon".radius / 2)))
+	enemy.global_position = pos
+	$CPUParticles2D.global_position = pos
+	$CPUParticles2D.emitting = true
+	audio_spawn.play()
+	var id = "BOSS"
+	enemy.name = id
+	enemy.die.connect(func(did):
+		if enemys_on_map.has(did):
+			enemys_on_map.erase(did)
+	)
+	enemys_on_map[id] = enemy
+	enemys.add_child.call_deferred(enemy)
+	
+
+			
+			
 func spawn():
-	if wait:
+	if wait || final_stage:
+		return
+	if Global.health == 0:
+		$enemys.hide()
 		return
 	var enemy = enemytypes.pick_random().instantiate()
-	var pos = Vector2(randi_range((1280/2)-($"../ballon".radius / 2),(1280/2)+($"../ballon".radius / 2)),300)
+	var pos = Vector2(randi_range((1280/2)-($"../ballon".radius / 2),(1280/2)+($"../ballon".radius / 2)),randi_range((720/2)-($"../ballon".radius / 2),(720/2)+($"../ballon".radius / 2)))
 	enemy.global_position = pos
 	$CPUParticles2D.global_position = pos
 	$CPUParticles2D.emitting = true

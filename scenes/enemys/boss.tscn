@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://bm0i6ctq0ffca"]
+
+[ext_resource type="Script" uid="uid://k3nvcxvigcpx" path="res://scripts/enemys/boss.gd" id="1_0pax2"]
+[ext_resource type="Shader" uid="uid://bqpekr0bb2i4r" path="res://scripts/shaders/flash.gdshader" id="1_4j1c7"]
+[ext_resource type="Texture2D" uid="uid://qp0082v6dkum" path="res://assets/textures/enemy/boss.png" id="3_0pax2"]
+[ext_resource type="AudioStream" uid="uid://cucf2q5wnm5yo" path="res://assets/audio/sfx/damage.wav" id="3_71eb0"]
+[ext_resource type="AudioStream" uid="uid://bd4twa5r6bw31" path="res://assets/audio/sfx/enemydead.wav" id="4_m2qhu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cra8y"]
+resource_local_to_scene = true
+shader = ExtResource("1_4j1c7")
+shader_parameter/flash = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1pkfy"]
+size = Vector2(52, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dv21p"]
+size = Vector2(60, 60)
+
+[sub_resource type="Curve" id="Curve_0pax2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Boss" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_0pax2")
+health = 150
+scoreAdd = 1000
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_cra8y")
+scale = Vector2(3, 3)
+texture = ExtResource("3_0pax2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1pkfy")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 11
+collision_mask = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_dv21p")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_71eb0")
+volume_db = -8.0
+mix_target = 1
+
+[node name="dieaudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_m2qhu")
+volume_db = -2.0
+
+[node name="delay" type="Timer" parent="."]
+autostart = true
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+position = Vector2(-8, 0)
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 100.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_0pax2")
+color = Color(1, 0, 0.352941, 1)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="delay" to="." method="_on_delay_timeout"]

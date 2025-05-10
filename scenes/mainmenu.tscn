@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cnddul46r2nm0"]
+[gd_scene load_steps=14 format=3 uid="uid://cnddul46r2nm0"]
 
 [ext_resource type="Script" uid="uid://bhd7ddiqd04do" path="res://scripts/mainmenu.gd" id="1_r3g3c"]
 [ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_3vvtq"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="7_dfy5j"]
 [ext_resource type="AudioStream" uid="uid://cj582yv6oex0r" path="res://assets/audio/sfx/ui_hover.mp3" id="8_wf3n4"]
 [ext_resource type="AudioStream" uid="uid://ehencagomqts" path="res://assets/audio/sfx/ui_click.mp3" id="9_h73c4"]
+[ext_resource type="AudioStream" uid="uid://c35aihhbj5ewj" path="res://assets/audio/crypto-dreams-gaming-synthwave-chill-technology-280693.mp3" id="10_h73c4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dfy5j"]
 shader = ExtResource("2_7yvfd")
@@ -128,6 +129,11 @@ volume_db = 5.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_wf3n4")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_h73c4")
+volume_db = -25.0
+autoplay = true
 
 [connection signal="mouse_entered" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/Control/Button" to="." method="_on_button_mouse_exited"]

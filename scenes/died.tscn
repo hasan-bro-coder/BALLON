@@ -1,0 +1,127 @@
+[gd_scene load_steps=11 format=3 uid="uid://caavr6amm07g0"]
+
+[ext_resource type="Script" uid="uid://0f782q58c1q5" path="res://scripts/died.gd" id="1_d4luv"]
+[ext_resource type="Shader" uid="uid://sl7vbuycuolg" path="res://scripts/shaders/blur.gdshader" id="2_jw1bs"]
+[ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="3_mubft"]
+[ext_resource type="Texture2D" uid="uid://8wqh4rddc1ev" path="res://assets/textures/again.png" id="4_mubft"]
+[ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="5_jw1bs"]
+[ext_resource type="AudioStream" uid="uid://cj582yv6oex0r" path="res://assets/audio/sfx/ui_hover.mp3" id="6_mr4x7"]
+[ext_resource type="AudioStream" uid="uid://ehencagomqts" path="res://assets/audio/sfx/ui_click.mp3" id="7_p88vf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p88vf"]
+shader = ExtResource("2_jw1bs")
+shader_parameter/lod = 2.99
+
+[sub_resource type="LabelSettings" id="LabelSettings_p1qek"]
+font = ExtResource("3_mubft")
+font_size = 80
+
+[sub_resource type="LabelSettings" id="LabelSettings_70bww"]
+font = ExtResource("3_mubft")
+font_size = 24
+
+[node name="Died" type="Node2D"]
+script = ExtResource("1_d4luv")
+
+[node name="died" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 3
+
+[node name="Control" type="Control" parent="died"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="died/Control"]
+material = SubResource("ShaderMaterial_p88vf")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="lost" type="Label" parent="died/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.353906
+anchor_top = 0.265278
+anchor_right = 0.646875
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
+text = "Run Failed"
+label_settings = SubResource("LabelSettings_p1qek")
+metadata/_edit_use_anchors_ = true
+
+[node name="score" type="Label" parent="died/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -61.0
+offset_right = 30.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "score: 0"
+label_settings = SubResource("LabelSettings_70bww")
+
+[node name="TextureRect" type="TextureRect" parent="died/Control"]
+modulate = Color(100, 100, 100, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -37.0
+offset_right = 100.0
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_mubft")
+
+[node name="restart" type="Button" parent="died/Control"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -81.0
+offset_top = -22.0
+offset_right = 82.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_mubft")
+theme_override_font_sizes/font_size = 24
+text = "AAAAAAAAAAA
+
+AAAAAAAAAAA
+"
+flat = true
+expand_icon = true
+
+[node name="hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_mr4x7")
+volume_db = 4.0
+
+[node name="click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_p88vf")
+volume_db = 5.0
+
+[node name="Transition" parent="." instance=ExtResource("5_jw1bs")]
+
+[connection signal="mouse_entered" from="died/Control/restart" to="." method="_on_restart_mouse_entered"]
+[connection signal="mouse_exited" from="died/Control/restart" to="." method="_on_restart_mouse_exited"]
+[connection signal="pressed" from="died/Control/restart" to="." method="_on_restart_pressed"]

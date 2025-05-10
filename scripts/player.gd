@@ -27,6 +27,9 @@ const BULLET = preload("res://scenes/bullet.tscn")
 @onready var logger: Node2D = $"../Logger"
 
 func _physics_process(delta: float) -> void:
+	if died:
+		return
+	
 	# Add the gravity.
 	#if not is_on_floor():
 		#velocity += get_gravity() * delta
@@ -67,6 +70,7 @@ func _physics_process(delta: float) -> void:
 	
 @onready var tleftpos: Marker2D = $trailpos2/left
 @onready var trightpos: Marker2D = $trailpos2/right
+@onready var sprite: Sprite2D = $Sprite2D
 
 var trailframe = 0
 func trail():
@@ -83,6 +87,8 @@ func trail():
 	
 
 func shoot():
+	if died:
+		return
 	if !shoot_audio.playing:
 		shoot_audio.play()
 	var mouse := get_global_mouse_position()
@@ -102,21 +108,35 @@ func shoot():
 	bullet2.global_position = right.global_position
 	bullet2.rotation = global_rotation
 	bullets.add_child(bullet2)
-	
-	
 	delay.start()
 	pass
-
+	
+var died = false
 func damage():
+	if died:
+		return
 	camera_2d.shake(0.5,7)
 	$damage.play()
-	logger.add("ouch",global_position,Color.from_rgba8(255,0,90))
+	if logger: logger.add("ouch",global_position,Color.from_rgba8(255,0,90))
 	#damage_audio.play()
-	Global.health -= 1
+	Global.health -= 0.5
 	if Global.health <= 0:
 		die()
 
 func die():
+	if died:
+		return
+	died = true
+	$Sprite2D.hide()
+	$trails.hide()
+	$shoot.stop()
+	
+	$CPUParticles2D.emitting = true
+	$gameover.play()
+	await $gameover.finished
+	$"../Transition".play("close",func():
+		get_tree().change_scene_to_file("res://scenes/died.tscn")
+	)
 	hide()
 	#hide()
 	pass		
