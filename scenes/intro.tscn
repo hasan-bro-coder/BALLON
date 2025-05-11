@@ -1,11 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcbf0pjjbdtap"]
+[gd_scene load_steps=4 format=3 uid="uid://bcbf0pjjbdtap"]
 
 [ext_resource type="Script" uid="uid://dat3hqvaxbw2" path="res://scripts/intro.gd" id="1_yjqpq"]
 [ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="2_4bx60"]
 [ext_resource type="Texture2D" uid="uid://do6fl2f3ea4yn" path="res://assets/cutscene/first.png" id="2_i2l1n"]
-
-[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_sjfbp"]
-file = "res://assets/cutscene/output.ogg"
 
 [node name="Intro" type="Control"]
 layout_mode = 3
@@ -30,7 +27,6 @@ expand_mode = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-stream = SubResource("VideoStreamTheora_sjfbp")
 
 [node name="Transition" parent="." instance=ExtResource("2_4bx60")]
 

@@ -112,16 +112,23 @@ func shoot():
 	pass
 	
 var died = false
+var dialougs = ["Ouch","Hurt","Ahhh","Cooked","Damaged","Oof"]
+
 func damage():
 	if died:
 		return
 	camera_2d.shake(0.5,7)
 	$damage.play()
-	if logger: logger.add("ouch",global_position,Color.from_rgba8(255,0,90))
+	Engine.time_scale = 0.5
+	if logger: logger.add(dialougs.pick_random(),global_position,Color.from_rgba8(255,0,90))
 	#damage_audio.play()
+	#$"../scores/ColorRect".material.set_shader_parameter("hue_shift",0.0)
 	Global.health -= 0.5
 	if Global.health <= 0:
+		Engine.time_scale = 1
 		die()
+	#create_tween().tween_property($"../scores/ColorRect","material:shader_parameter/hue_shift",1.0,1)
+	create_tween().tween_property(Engine,"time_scale",1,0.5)
 
 func die():
 	if died:

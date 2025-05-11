@@ -7,8 +7,8 @@
 [ext_resource type="Script" uid="uid://b8ck0vybqfvx" path="res://scripts/mousehandler.gd" id="3_xtug4"]
 [ext_resource type="Texture2D" uid="uid://ywcccaqkucu" path="res://assets/textures/mouse.png" id="4_4cjul"]
 [ext_resource type="Script" uid="uid://cp5dl6rs4oov2" path="res://scripts/ballon.gd" id="5_c03ob"]
-[ext_resource type="AudioStream" uid="uid://dsaj5le63txuc" path="res://assets/audio/chill-synthwave-211190.mp3" id="6_ndv2e"]
 [ext_resource type="PackedScene" uid="uid://42cyhn0h851s" path="res://scenes/transition.tscn" id="7_8ihin"]
+[ext_resource type="AudioStream" uid="uid://c6ssvkd37nm25" path="res://assets/audio/synthwave-retro-80s-321106.mp3" id="8_xtug4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4cjul"]
 font = ExtResource("2_xtug4")
@@ -47,6 +47,7 @@ grow_horizontal = 2
 text = "hello welcome to BALLON"
 label_settings = SubResource("LabelSettings_4cjul")
 horizontal_alignment = 1
+uppercase = true
 
 [node name="player" parent="." instance=ExtResource("1_c5wwr")]
 position = Vector2(624, 343)
@@ -84,8 +85,8 @@ wait_time = 0.1
 [node name="ballons" type="Node2D" parent="ballon"]
 
 [node name="bgm" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_ndv2e")
-volume_db = -20.0
+stream = ExtResource("8_xtug4")
+volume_db = -15.0
 autoplay = true
 mix_target = 1
 parameters/looping = true

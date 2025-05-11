@@ -1,9 +1,13 @@
 extends Control
 
 const MAIN = preload("res://scenes/training.tscn")
+var vid = preload("res://assets/cutscene/output.ogv")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Transition.play("open",func():$VideoStreamPlayer.play())
+	$Transition.play("open",func():
+		$VideoStreamPlayer.stream = vid
+		$VideoStreamPlayer.play()
+		)
 	pass # Replace with function body.
 
 const LAST = preload("res://assets/cutscene/last.png")

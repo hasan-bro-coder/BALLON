@@ -9,7 +9,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func train():
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(4).timeout
 	$CanvasLayer/Label.text = "Use WASD to move"
 	await get_tree().create_timer(3).timeout
 	$CanvasLayer/Label.text = "Mouse click or Press Space to shoot"
@@ -25,5 +25,7 @@ func train():
 	await get_tree().create_timer(2).timeout
 	$CanvasLayer/Label.text = "Good luck"
 	await get_tree().create_timer(2).timeout
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	$Transition.play("close",func():
+		get_tree().change_scene_to_file("res://scenes/main.tscn")
+	)
 	

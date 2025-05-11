@@ -11,12 +11,12 @@ config_version=5
 [application]
 
 config/name="BALLON"
-config/description="a space shooter like game where you have to escape from a ballon"
+config/description="a space shooter like game where you have to escape from a balloon"
 config/version="1.0.0"
-run/main_scene="uid://dvathl3wnaget"
+run/main_scene="uid://cnddul46r2nm0"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0.133333, 0.137255, 0.137255, 1)
-boot_splash/show_image=false
+boot_splash/image="uid://isrked7viij7"
 config/icon="uid://isrked7viij7"
 
 [autoload]
@@ -27,8 +27,7 @@ Global="*res://scripts/global.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="uid://c3ud0amd46nlt"
 mouse_cursor/custom_image_hotspot=Vector2(1.5, 1.5)
 

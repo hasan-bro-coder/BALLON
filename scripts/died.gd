@@ -1,8 +1,8 @@
 extends Node2D
 
 @onready var restart: Button = $died/Control/restart
-@onready var hover: AudioStreamPlayer = $hover
-@onready var click: AudioStreamPlayer = $click
+@onready var hover: AudioStreamPlayer = $"hover"
+@onready var click: AudioStreamPlayer = $"click"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

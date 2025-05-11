@@ -1,11 +1,11 @@
-[gd_scene load_steps=29 format=3 uid="uid://dvathl3wnaget"]
+[gd_scene load_steps=31 format=3 uid="uid://dvathl3wnaget"]
 
 [ext_resource type="Script" uid="uid://btlob61lw8ifc" path="res://scripts/main.gd" id="1_choun"]
 [ext_resource type="PackedScene" uid="uid://da8o6ut7mgand" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://tvkhsob8e0r6" path="res://scripts/camera.gd" id="2_0wfyh"]
 [ext_resource type="Script" uid="uid://dnsgf8cb64at8" path="res://scripts/enemyhandler.gd" id="3_sugp2"]
 [ext_resource type="FontFile" uid="uid://brtd07w6lobng" path="res://assets/fonts/PixelifySans-Regular.ttf" id="4_jyhfs"]
-[ext_resource type="AudioStream" uid="uid://bt512s5rg8fuv" path="res://assets/audio/sfx/blipSelect.wav" id="5_a8y0u"]
+[ext_resource type="AudioStream" uid="uid://bt512s5rg8fuv" path="res://assets/audio/sfx/enemyspawn.wav" id="5_a8y0u"]
 [ext_resource type="Script" uid="uid://jmgiqgxrm7x7" path="res://scripts/fps.gd" id="6_85g3d"]
 [ext_resource type="Script" uid="uid://b8ck0vybqfvx" path="res://scripts/mousehandler.gd" id="6_jkv2x"]
 [ext_resource type="Script" uid="uid://cp5dl6rs4oov2" path="res://scripts/ballon.gd" id="6_tefeu"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://6oxpynxmax46" path="res://assets/textures/health/row-1-column-7.png" id="16_tel4y"]
 [ext_resource type="Texture2D" uid="uid://buqenkrn65stx" path="res://assets/textures/health/row-1-column-8.png" id="17_qkpxi"]
 [ext_resource type="Texture2D" uid="uid://exg3mvhohd1b" path="res://assets/textures/health/row-1-column-9.png" id="18_5q0nq"]
+[ext_resource type="Shader" uid="uid://k1i7egd6jonq" path="res://scripts/shaders/hue.gdshader" id="20_y6deb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_og1vs"]
 font = ExtResource("4_jyhfs")
@@ -54,6 +55,12 @@ frame_8/duration = 1.0
 font = ExtResource("4_jyhfs")
 font_size = 32
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_og1vs"]
+shader = ExtResource("20_y6deb")
+shader_parameter/hue_shift = 0.0
+shader_parameter/sat_mul = 1.0
+shader_parameter/val_mul = 1.0
+
 [sub_resource type="Environment" id="Environment_sgp6g"]
 background_mode = 3
 glow_enabled = true
@@ -81,7 +88,7 @@ script = ExtResource("3_sugp2")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="enemyhandler"]
 stream = ExtResource("5_a8y0u")
-volume_db = -15.0
+volume_db = -30.0
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="enemyhandler"]
 emitting = false
@@ -179,6 +186,15 @@ offset_bottom = 23.0
 grow_horizontal = 2
 script = ExtResource("6_85g3d")
 metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="scores"]
+visible = false
+material = SubResource("ShaderMaterial_og1vs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sgp6g")

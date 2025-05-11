@@ -17,7 +17,7 @@ var zoom_to := Vector2(2,2)
 func _process(delta):
 	
 	if zoom != zoom_to:
-		zoom = lerp(zoom,zoom_to,delta)
+		zoom = lerp(zoom,zoom_to,delta/2)
 	
 	if _time_left > 0:
 		_time_left -= delta

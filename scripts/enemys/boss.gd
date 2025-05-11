@@ -62,6 +62,52 @@ func shoot(dir):
 	$"../../../".add_child.call_deferred(bullet,true)
 
 	
+func damage(pos,kb=true):
+	if died:
+		return
+		
+		
+	health -= 1 + Global.damage
+	if health == 0:
+		died = true
+		Global.score += scoreAdd * Global.scoreM
+		camera.shake()
+		if logger:
+			logger.add("+"+str(int(floor(scoreAdd * Global.scoreM))),global_position)
+		#dieparticle.emitting = true
+		die.emit(name)
+		sprite_2d.hide()
+		#await dieparticle.finished
+		dieaudio.play()
+		await dieaudio.finished
+		var t = create_tween()
+		t.tween_property($CanvasLayer/ColorRect,"color",Color.WHITE,3)
+		t.finished.connect(func():
+			get_tree().change_scene_to_file("res://scenes/ending.tscn")
+		)
+		#queue_free()
+	if kb:
+		apply_knockback(pos,500)
+		move_and_slide()
+	if !audio.playing:
+		audio.pitch_scale = randf_range(0.9,1.10)
+		audio.play()
+		playit = true
+	if tween and tween.is_running(): 
+		return
+		#tween.stop()
+	tween = create_tween()
+	#sprite_2d.material.set_shader_parameter("flash",0.0)
+	#tween.tween_property(self,"scale",Vector2(1.1,1.1),0.2)
+	tween.tween_property(sprite_2d,"material:shader_parameter/flash",1,0.1)
+	tween.finished.connect(func():
+		if tween2: tween2.stop()
+		tween2 = create_tween()
+		#tween.tween_property(self,"scale",Vector2(1,1),0.2)
+		tween2.tween_property(sprite_2d,"material:shader_parameter/flash",0,0.1)
+	)
+	#sprite_2d.material.set_shader_parameter("flash",1.0)
+		
 
 
 func _on_delay_timeout() -> void:

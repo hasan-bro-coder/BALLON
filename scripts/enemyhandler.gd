@@ -60,13 +60,11 @@ func spawn_group():
 			$enemys.hide()
 			return
 		for i in randi_range(3,4+Global.stage*2):
-			audio_spawn.pitch_scale = 0.8+i/10
 			await get_tree().create_timer(0.7).timeout
 			spawn()
 
 var final_stage = false
 func spawn_boss():
-	print("spawned Bosss")
 	final_stage = true
 	var enemy = BOSS.instantiate()
 	var pos = Vector2(randi_range((1280/2)-($"../ballon".radius / 2),(1280/2)+($"../ballon".radius / 2)),randi_range((720/2)-($"../ballon".radius / 2),(720/2)+($"../ballon".radius / 2)))

@@ -9,7 +9,7 @@ var data = {
 var health = 15
 
 signal choice_done
-signal hover
+signal hover(txt:String)
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var camera: Camera2D = $"../../Camera2D"
@@ -47,7 +47,6 @@ func change_data(num:int):
 			return
 
 func apply():
-	print(data)
 	if data["health"] != 0:
 		Global.health += data["health"]
 	if data["damage"] != 0:
@@ -65,8 +64,8 @@ func damage():
 	hover.emit(txt)
 	if health == 0:
 		apply()
-		camera.shake()
 		choice_done.emit()
+		camera.shake()
 		sprite_2d.hide()
 		#await dieparticle.finished
 		dieaudio.play()
